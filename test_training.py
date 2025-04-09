@@ -13,7 +13,7 @@ from model_training_code import (load_data, preprocess_data,
 
 # Define constants for important information
 BUCKET_NAME = "bikeshare-mlops-kcl"
-OBJECT_NAME = "model.joblib"
+MODEL_NAME = "model.joblib"
 DATA_NAME = "hour.csv"
 
 storage_client = storage.Client()
@@ -44,7 +44,7 @@ def test_model_is_trained_correctly():
 
 
 def test_model_artifact_is_saved_correctly():
-    assert bucket.blob(OBJECT_NAME).exists()
+    assert bucket.blob(MODEL_NAME).exists()
 
 
 def test_preprocess_data_returns_correct_columns():
