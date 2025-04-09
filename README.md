@@ -1,5 +1,23 @@
 # MLOps
 
+```shell
+gcloud iam service-accounts create SERVICE_ACCOUNT_NAME \
+  --description="DESCRIPTION" \
+  --display-name="DISPLAY_NAME"
+
+gcloud projects add-iam-policy-binding udemy-mlops \
+    --member=serviceAccount:vertexai-sa@udemy-mlops.iam.gserviceaccount.com \
+    --role=roles/aiplatform.customCodeServiceAgent
+
+gcloud projects add-iam-policy-binding udemy-mlops \
+    --member=serviceAccount:vertexai-sa@udemy-mlops.iam.gserviceaccount.com \
+    --role=roles/aiplatform.admin
+
+gcloud projects add-iam-policy-binding udemy-mlops \
+    --member=serviceAccount:vertexai-sa@udemy-mlops.iam.gserviceaccount.com \
+    --role=roles/storage.objectAdmin
+```
+
 ## hands-on Vertex AI Custom Training gcloud cli
 1. Create a service account and grant the necessary permissions
 
@@ -54,6 +72,10 @@ gcloud ai custom-jobs create --region=us-central1 \
 
 
 ## CI CD
+
+1. create bucket
+2. upload dataset
+3. 
 
 ```shell
 # Assign Service account user role to the service account 

@@ -1,9 +1,9 @@
 substitutions:
   _REGION: 'us-central1'
-  _DOCKER_IMAGE: 'gcr.io/$PROJECT_ID/cicd-vertex-bikeshare-model'
-  _MODEL_NAME: 'bikeshare-new-model'
+  _DOCKER_IMAGE: 'gcr.io/$PROJECT_ID/bikeshare-image'
+  _MODEL_NAME: 'bikeshare-model'
   _ENDPOINT_NAME: 'bikeshare-model-endpoint-1'
-  _ARTIFACT_URI: 'gs://sid-ml-ops/bike-share-rf-regression-artifact/'
+  _ARTIFACT_URI: 'gs://bikeshare-mlops-kcl/'
 
 steps:
 - id: 'Build Docker Image'
@@ -20,7 +20,7 @@ steps:
   args:
     - '-c'
     - |
-      pytest test-training.py
+      pytest test_training.py
 
 - id: 'Submit Training Job'
   name: 'gcr.io/cloud-builders/gcloud'
