@@ -15,16 +15,12 @@ def load_data(filename):
     return df
 
 def preprocess_data(df):
-    df = df.rename(
-        columns={
-            'weathersit': 'weather',
-            'yr': 'year',
-            'mnth': 'month',
-            'hr': 'hour',
-            'hum': 'humidity',
-            'cnt': 'count'
-        }
-    )
+    df = df.rename(columns={'weathersit':'weather',
+                            'yr':'year',
+                            'mnth':'month',
+                            'hr':'hour',
+                            'hum':'humidity',
+                            'cnt':'count'})
     df = df.drop(columns=['instant', 'dteday', 'year'])
     cols = ['season', 'month', 'hour', 'holiday', 'weekday', 'workingday', 'weather']
     for col in cols:
@@ -64,7 +60,7 @@ def main():
     df = load_data(filename)
     X, y = preprocess_data(df)
     # model, rmse = train_model(X, y)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+    X_train,X_test,y_train,y_test = train_test_split(X, y, test_size=0.25, random_state=42)
     pipeline = train_model(model_name, X_train, y_train)
     y_pred = pipeline.predict(X_test)
     save_model_artifact(model_name, pipeline)
