@@ -1,48 +1,85 @@
+substitutions:
+  _REGION: 'us-central1'
+  _DOCKER_IMAGE: 'gcr.io/$PROJECT_ID/cicd-vertex-bikeshare-model'
+  _MODEL_NAME: 'bikeshare-new-model'
+  _ENDPOINT_NAME: 'bikeshare-model-endpoint-1'
+  _ARTIFACT_URI: 'gs://sid-ml-ops/bike-share-rf-regression-artifact/'
+
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Build Docker Image'
-  args: ['build', '-t', 'gcr.io/udemy-mlops/cicd-vertex-bikeshare-model', '.']
+- id: 'Build Docker Image'
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', '$_DOCKER_IMAGE', '.']
 
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Push Docker Image To GCR'
-  args: ['push', 'gcr.io/udemy-mlops/cicd-vertex-bikeshare-model']
+- id: 'Push Docker Image To GCR'
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '$_DOCKER_IMAGE']
 
-- name: 'gcr.io/udemy-mlops/cicd-vertex-bikeshare-model'
-  id: 'Execute Tests'
+- id: 'Execute Tests'
+  name: '$_DOCKER_IMAGE'
   entrypoint: 'bash'
   args:
-   - '-c'
-   - |
+    - '-c'
+    - |
       pytest test-training.py
-      
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: 'Submit Training Job'
-  args: ['ai', 'custom-jobs', 'create', '--region=us-central1', '--project=udemy-mlops', '--worker-pool-spec=replica-count=1,machine-type=n1-standard-4,container-image-uri=gcr.io/udemy-mlops/cicd-vertex-bikeshare-model', '--display-name=bike-sharing-model-training']
-  
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: 'Upload Model'
-  args: ['ai', 'models', 'upload',
-         '--container-image-uri=us-docker.pkg.dev/vertex-ai/prediction/sklearn-cpu.1-0:latest',
-         '--description=bikeshare-new-model',
-         '--display-name=bikeshare-new-model',
-         '--artifact-uri=gs://sid-ml-ops/bike-share-rf-regression-artifact/',
-         '--project=udemy-mlops',
-         '--region=us-central1']
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: 'Fetch Model ID'
-  entrypoint: 'bash'
-  args: ['-c', 'gcloud ai models list --region=us-central1 --project=udemy-mlops --format="get(MODEL_ID)" --sort-by="createTime" --limit=1 > /workspace/model_id.txt']
+- id: 'Submit Training Job'
+  name: 'gcr.io/cloud-builders/gcloud'
+  args:
+    - 'ai'
+    - 'custom-jobs'
+    - 'create'
+    - '--region=$_REGION'
+    - '--project=$PROJECT_ID'
+    - '--worker-pool-spec=replica-count=1,machine-type=n1-standard-4,container-image-uri=$_DOCKER_IMAGE'
+    - '--display-name=bikeshare-model-training'
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: 'Create Endpoint'
-  entrypoint: 'bash'
-  args: ['-c', 'gcloud beta ai endpoints create --display-name=bikeshare-model-endpoint-1 --format="get(name)" --region=us-central1 --project=udemy-mlops > /workspace/endpoint_id.txt']
+- id: 'Upload Model'
+  name: 'gcr.io/cloud-builders/gcloud'
+  args:
+    - 'ai'
+    - 'models'
+    - 'upload'
+    - '--container-image-uri=us-docker.pkg.dev/vertex-ai/prediction/sklearn-cpu.1-0:latest'
+    - '--description=$_MODEL_NAME'
+    - '--display-name=$_MODEL_NAME'
+    - '--artifact-uri=$_ARTIFACT_URI'
+    - '--project=$PROJECT_ID'
+    - '--region=$_REGION'
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: 'Deploy Model Endpoint'
+- id: 'Fetch Model ID'
+  name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
-  args: 
-  - '-c'
-  - |
-    gcloud beta ai endpoints deploy-model $(cat /workspace/endpoint_id.txt) --region=us-central1 --model=$(cat /workspace/model_id.txt) --display-name=bikeshare-model-endpoint --traffic-split=0=100 --machine-type=n1-standard-4
+  args:
+    - '-c'
+    - |
+      gcloud ai models list \
+        --region=$_REGION \
+        --project=$PROJECT_ID \
+        --format="get(MODEL_ID)" \
+        --sort-by="createTime" \
+        --limit=1 > /workspace/model_id.txt
+
+- id: 'Create Endpoint'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud beta ai endpoints create \
+        --display-name=$_ENDPOINT_NAME \
+        --format="get(name)" \
+        --region=$_REGION \
+        --project=$PROJECT_ID > /workspace/endpoint_id.txt
+
+- id: 'Deploy Model Endpoint'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud beta ai endpoints deploy-model $(cat /workspace/endpoint_id.txt) \
+        --region=$_REGION \
+        --model=$(cat /workspace/model_id.txt) \
+        --display-name=bikeshare-model-endpoint \
+        --traffic-split=0=100 \
+        --machine-type=n1-standard-4
