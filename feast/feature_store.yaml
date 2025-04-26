@@ -1,0 +1,13 @@
+project: fraud
+registry: ${FEAST_REGISTRY}
+entity_key_serialization_version: 2
+provider: gcp
+offline_store:
+  type: bigquery
+  dataset: ${FEAST_OFFLINE_STORE_BQ_DATASET}
+  project_id: ${FEAST_OFFLINE_STORE_PROJECT_ID}
+  billing_project_id: ${FEAST_OFFLINE_STORE_BILLING_PROJECT_ID}
+  location: ${FEAST_OFFLINE_STORE_LOCATION}
+online_store:
+  type: datastore
+  project_id: ${FEAST_ONLINE_STORE_PROJECT_ID}

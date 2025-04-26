@@ -1,0 +1,12 @@
+{
+  "features": [
+    "user_transaction_count_7d:transaction_count_7d",
+    "user_account_features:credit_score",
+    "user_account_features:account_age_days",
+    "user_account_features:user_has_2fa_installed",
+    "user_has_fraudulent_transactions:user_has_fraudulent_transactions_7d"
+  ],
+  "entities": {
+    "user_id": ["v5zlw0"]
+  }
+}
