@@ -23,6 +23,7 @@ spec:
                 echo "Waiting for postgres..."
                 sleep 2
               done
+              echo "Postgres is ready!"
         - name: wait-for-minio
           image: busybox
           command:
@@ -33,6 +34,7 @@ spec:
                 echo "Waiting for minio..."
                 sleep 2
               done
+              echo "MinIO is ready!"
       containers:
         - name: {{ .Values.mlflow.name }}
           image: bitnami/mlflow:latest

@@ -86,6 +86,18 @@ spec:
       labels:
         job: minio-create-bucket
     spec:
+      initContainers:
+        - name: wait-for-minio
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z {{ .Values.minio.name }} {{ .Values.minio.api_port }}; do
+                echo "Waiting for minio..."
+                sleep 2
+              done
+              echo "MinIO is ready!"
       containers:
         - name: minio-create-bucket
           image: minio/mc
