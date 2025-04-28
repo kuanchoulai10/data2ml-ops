@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: minio
+          image: minio/minio
+          args:
+            - server
+            - /data
+            - --console-address
+            - :9001
+          env:
+            - name: MINIO_ROOT_USER
+              value: minio_user
+            - name: MINIO_ROOT_PASSWORD
+              value: minio_password
+          ports:
+            - containerPort: 9000
+              protocol: TCP
+            - containerPort: 9001
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /minio/health/live
+              port: 9000
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 15
+            failureThreshold: 6
+          readinessProbe:
+            httpGet:
+              path: /minio/health/ready
+              port: 9000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 10
+            failureThreshold: 3
+          volumeMounts:
+            - name: minio-data
+              mountPath: /data
+      volumes:
+        - name: minio-data
+          hostPath:
+            path: /Users/kcl/projects/mlops/mlflow/minio-data
+            type: DirectoryOrCreate
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+spec:
+  selector:
+    app: minio
+  type: NodePort
+  ports:
+    - name: api
+      port: 9000
+      targetPort: 9000
+      nodePort: 30900
+    - name: console
+      port: 9001
+      targetPort: 9001
+      nodePort: 30901
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-create-bucket
+spec:
+  backoffLimit: 6
+  completions: 1
+  template:
+    metadata:
+      labels:
+        job: minio-create-bucket
+    spec:
+      containers:
+        - name: minio-create-bucket
+          image: minio/mc
+          env:
+            - name: MINIO_HOST
+              value: minio
+            - name: MINIO_PORT
+              value: "9000"
+            - name: MINIO_USER
+              value: minio_user
+            - name: MINIO_PASSWORD
+              value: minio_password
+            - name: BUCKET_NAME
+              value: bucket
+          command:
+            - sh
+            - -c
+            - |
+              mc alias set minio http://${MINIO_HOST}:${MINIO_PORT} ${MINIO_USER} ${MINIO_PASSWORD} &&
+              if ! mc ls minio/bucket; then
+                mc mb minio/bucket
+              else
+                echo "Bucket already exists"
+              fi
+      restartPolicy: OnFailure
+      terminationGracePeriodSeconds: 30
