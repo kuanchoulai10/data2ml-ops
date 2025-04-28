@@ -2,3 +2,27 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+minio:
+  name: minio
+  root_user: minio_user
+  root_password: minio_password
+  api_port: 9000
+  console_port: 9001
+  bucket_name: bucket
+  host_path: /Users/kcl/projects/mlops/mlflow/minio-data
+  mount_path: /data
+
+postgres:
+  name: postgres
+  db: mlflowdb
+  user: user
+  password: password
+  host: postgres
+  port: 5432
+  host_path: /Users/kcl/projects/mlops/mlflow/postgres-data
+  mount_path: /var/lib/postgresql/data
+
+mlflow:
+  name: mlflow
+  host: 0.0.0.0
+  port: 5000

@@ -1,50 +1,50 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: {{ .Values.postgres.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: {{ .Values.postgres.name }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: postgres
+        app: {{ .Values.postgres.name }}
     spec:
       containers:
-        - name: postgres
+        - name: {{ .Values.postgres.name }}
           image: postgres:latest
           env:
             - name: POSTGRES_DB
-              value: mlflowdb
+              value: {{ .Values.postgres.db }}
             - name: POSTGRES_USER
-              value: user
+              value: {{ .Values.postgres.user }}
             - name: POSTGRES_PASSWORD
-              value: password
+              value: {{ .Values.postgres.password }}
           ports:
-            - containerPort: 5432
+            - containerPort: {{ .Values.postgres.port }}
               protocol: TCP
           volumeMounts:
-            - name: postgres-data
-              mountPath: /var/lib/postgresql/data
+            - name: storage
+              mountPath: {{ .Values.postgres.mount_path }}
       restartPolicy: Always
       volumes:
-        - name: postgres-data
+        - name: storage
           hostPath:
-            path: /Users/kcl/projects/mlops/mlflow/postgres-data
+            path: {{ .Values.postgres.host_path }}
             type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: {{ .Values.postgres.name }}
 spec:
   selector:
-    app: postgres
+    app: {{ .Values.postgres.name }}
   type: ClusterIP
   ports:
-    - port: 5432
-      targetPort: 5432
+    - port: {{ .Values.postgres.port }}
+      targetPort: {{ .Values.postgres.port }}
