@@ -3,6 +3,7 @@ provider "google" {
   region  = "us-central1"
 }
 
+# --8<-- [start:feature-online-store]
 # Feature Online Store
 resource "google_vertex_ai_feature_online_store" "demo_store" {
   name   = "demo"
@@ -16,7 +17,9 @@ resource "google_vertex_ai_feature_online_store" "demo_store" {
     }
   }
 }
+# --8<-- [end:feature-online-store]
 
+# --8<-- [start:template]
 # Template for feature group and features
 locals {
   feature_groups = {
@@ -34,8 +37,9 @@ locals {
     ]
   }
 }
+# --8<-- [end:template]
 
-
+# --8<-- [start:feature-groups]
 # Feature Groups
 resource "google_vertex_ai_feature_group" "feature_groups" {
   for_each    = local.feature_groups
@@ -50,8 +54,10 @@ resource "google_vertex_ai_feature_group" "feature_groups" {
     entity_id_columns = ["credit_request_id"]
   }
 }
+# --8<-- [end:feature-groups]
 
-# Feature Group Features
+# --8<-- [start:feature-group-features]
+# Feature Group - Features
 resource "google_vertex_ai_feature_group_feature" "credit_request_features" {
   for_each = toset(local.feature_groups.credit_request)
 
@@ -87,8 +93,9 @@ resource "google_vertex_ai_feature_group_feature" "customer_demographics_feature
   feature_group = google_vertex_ai_feature_group.feature_groups["customer_demographics"].name
   description   = "Feature for ${each.value}"
 }
+# --8<-- [end:feature-group-features]
 
-
+# --8<-- [start:feature-online-store-featureview]
 # Feature Online Store FeatureView
 resource "google_vertex_ai_feature_online_store_featureview" "main" {
   name                 = "main"
@@ -105,3 +112,4 @@ resource "google_vertex_ai_feature_online_store_featureview" "main" {
        }
   }
 }
+# --8<-- [end:feature-online-store-featureview]

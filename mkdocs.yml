@@ -33,23 +33,31 @@ theme:
     - content.code.annotate 
 
 markdown_extensions:
-  - pymdownx.snippets
-  - pymdownx.keys
-  - pymdownx.details
   - admonition
-  - pymdownx.details
-  - pymdownx.superfences
   - footnotes
   - def_list
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.snippets
+  - pymdownx.keys
+  - pymdownx.smartsymbols
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true
+      clickable_checkbox: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
