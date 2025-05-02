@@ -4,7 +4,9 @@ nav:
   - README.md
   - DataOps:
     - dbt-introduction.md
-    - feast-architecture.md
+    - feature-store-introduction.md
+    - vertex-ai-feature-store-introduction.md
+    - feast-introduction.md
     - feast-server-deployment.md
   - MLOps:
     - minikube-introduction.md
