@@ -1,0 +1,116 @@
+substitutions:
+  _REGION: 'us-central1'
+  _DOCKER_IMAGE: 'gcr.io/mlops-437709/bikeshare-image'
+  _MODEL_NAME: 'bikeshare-model'
+  _ENDPOINT_NAME: 'bikeshare-model-endpoint'
+  _ARTIFACT_URI: 'gs://bikeshare-mlops-kcl/artifacts/'
+
+steps:
+- id: 'Build Docker Image'
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', '$_DOCKER_IMAGE', '.']
+
+- id: 'Push Docker Image To GCR'
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '$_DOCKER_IMAGE']
+
+# - id: 'Execute Tests'
+#   name: '$_DOCKER_IMAGE'
+#   entrypoint: 'bash'
+#   args:
+#     - '-c'
+#     - |
+#       pytest test_training.py
+
+- id: 'Submit Vertex AI Custom Training Job'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      JOB_ID=$(gcloud ai custom-jobs create \
+        --region=$_REGION \
+        --project=$PROJECT_ID \
+        --worker-pool-spec=replica-count=1,machine-type=n1-standard-4,container-image-uri=$_DOCKER_IMAGE \
+        --display-name=bikeshare-model-training \
+        --format='value(name)')
+      echo "Submitted job: $$JOB_ID"
+      echo $$JOB_ID > /workspace/job_id.txt
+
+- id: 'Wait for Training Completion'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      JOB_ID=$(cat /workspace/job_id.txt)
+      STATUS="JOB_STATE_PENDING"
+      until [[ "$$STATUS" == "JOB_STATE_SUCCEEDED" || "$$STATUS" == "JOB_STATE_FAILED" || "$$STATUS" == "JOB_STATE_CANCELLED" ]]; do
+        STATUS=$(gcloud ai custom-jobs describe $$JOB_ID --region=$_REGION --format='value(state)')
+        echo "Current job status: $$STATUS"
+        sleep 30
+      done
+
+      if [[ "$$STATUS" != "JOB_STATE_SUCCEEDED" ]]; then
+        echo "Training job failed or was cancelled."
+        exit 1
+      fi
+
+- id: 'Upload Model to Vertex AI Model Registry'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud ai models upload \
+        --region=$_REGION \
+        --project=$PROJECT_ID \
+        --display-name=$_MODEL_NAME \
+        --description=$_MODEL_NAME \
+        --container-image-uri=us-docker.pkg.dev/vertex-ai/prediction/sklearn-cpu.1-5:latest \
+        --artifact-uri=$_ARTIFACT_URI
+
+- id: 'Fetch Model ID'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      MODEL_ID=$(gcloud ai models list \
+        --region=$_REGION \
+        --project=$PROJECT_ID \
+        --sort-by="createTime" \
+        --limit=1 \
+        --format="get(MODEL_ID)")
+      echo "Fetched model ID: $$MODEL_ID"
+      echo $$MODEL_ID > /workspace/model_id.txt
+
+- id: 'Create Vertex AI Endpoint'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      ENDPOINT_ID=$(gcloud beta ai endpoints create \
+        --display-name=$_ENDPOINT_NAME \
+        --region=$_REGION \
+        --project=$PROJECT_ID \
+        --format="get(name)")
+      
+      echo "Created endpoint: $$ENDPOINT_ID"
+      echo $$ENDPOINT_ID > /workspace/endpoint_id.txt
+
+- id: 'Deploy Model to Vertex AI Endpoint'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      ENDPOINT_ID=$(cat /workspace/endpoint_id.txt)
+      MODEL_ID=$(cat /workspace/model_id.txt)
+      gcloud beta ai endpoints deploy-model $$ENDPOINT_ID \
+        --region=$_REGION \
+        --model=$$MODEL_ID \
+        --display-name=bikeshare-model-endpoint \
+        --traffic-split=0=100 \
+        --machine-type=n1-standard-4

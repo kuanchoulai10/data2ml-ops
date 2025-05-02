@@ -1,5 +1,0 @@
-pandas
-scikit-learn
-gcsfs==0.6.2
-google-cloud-storage==1.30.0
-pytest
