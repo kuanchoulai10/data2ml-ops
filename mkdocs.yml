@@ -1,0 +1,55 @@
+site_name: DataOps & MLOps
+docs_dir: docs
+nav:
+  - README.md
+  - DataOps:
+    - dbt-introduction.md
+    - feast-architecture.md
+    - feast-server-deployment.md
+  - MLOps:
+    - minikube-introduction.md
+    - mlflow-introduction.md
+    - minio-introduction.md
+    - mlflow-installation.md
+    - optuna-introduction.md
+    - mlflow-experiment-with-optuna.md
+    - knative-introduction.md
+    - istio-introduction.md
+    - cert-manager-introduction.md
+    - mlserver-introduction.md
+    - kserve-introduction.md
+    - kserve-installation.md
+    - kserve-model-deployment.md
+    - grpc-introduction.md
+    - rest-vs-grpc.md
+
+theme:
+  name: material
+  features:
+    - content.tabs.link
+    - content.code.copy
+    - content.code.annotate 
+
+markdown_extensions:
+  - pymdownx.snippets
+  - pymdownx.keys
+  - pymdownx.details
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - footnotes
+  - def_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
