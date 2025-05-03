@@ -2,24 +2,26 @@ site_name: DataOps & MLOps
 docs_dir: docs
 nav:
   - README.md
-  - DataOps:
+  - Analytics Engineering:
     - dbt-introduction.md
     - dbt-features.md
     - dbt-implementation.md
     - sqlmesh-introduction.md
     - sqlmesh-implementation.md
+  - Feature Store:
     - feature-store-introduction.md
     - vertex-ai-feature-store-introduction.md
     - vertex-ai-feature-store-implementation.md
     - feast-introduction.md
     - feast-server-deployment.md
-  - MLOps:
+  - Model Lifecycle Management:
     - minikube-introduction.md
     - mlflow-introduction.md
     - minio-introduction.md
     - mlflow-installation.md
     - optuna-introduction.md
     - mlflow-experiment-with-optuna.md
+  - Model Serving:
     - knative-introduction.md
     - istio-introduction.md
     - cert-manager-introduction.md
