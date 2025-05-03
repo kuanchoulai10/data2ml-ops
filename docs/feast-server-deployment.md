@@ -1,1 +1,1 @@
-# Deploy Feast Server on Cloud Run
+# Deploy Feast Server on Cloud Run (Hands-on)

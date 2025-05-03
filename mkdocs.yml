@@ -4,8 +4,13 @@ nav:
   - README.md
   - DataOps:
     - dbt-introduction.md
+    - dbt-features.md
+    - dbt-implementation.md
+    - sqlmesh-introduction.md
+    - sqlmesh-implementation.md
     - feature-store-introduction.md
     - vertex-ai-feature-store-introduction.md
+    - vertex-ai-feature-store-implementation.md
     - feast-introduction.md
     - feast-server-deployment.md
   - MLOps:
