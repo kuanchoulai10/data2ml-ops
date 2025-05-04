@@ -2,6 +2,7 @@ site_name: DataOps & MLOps
 docs_dir: docs
 nav:
   - README.md
+  - design-doc.md
   - Analytics Engineering:
     - dbt-introduction.md
     - dbt-features.md
