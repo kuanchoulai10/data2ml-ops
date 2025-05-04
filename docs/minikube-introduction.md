@@ -1,4 +1,4 @@
-# Minikube 入門指南：給剛認識 Kubernetes 的你
+# Minikube
 
 在學習 Kubernetes（K8s）之前，很多人會聽到一個工具叫做 **Minikube**。這篇文章會告訴你：
 

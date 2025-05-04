@@ -1,4 +1,4 @@
-# (Hands-on) KServe Model Deployment
+# KServe Model Deployment (Hands-on)
 
 ## Prerequisites
 

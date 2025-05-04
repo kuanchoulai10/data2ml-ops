@@ -1,4 +1,4 @@
-# Knative Introduction
+# Knative
 
 - Knative is an Open-Source Enterprise-level solution to build Serverless and Event Driven Applications
 - Why serverless containers?
