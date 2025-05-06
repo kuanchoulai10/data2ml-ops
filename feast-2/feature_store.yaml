@@ -1,0 +1,19 @@
+project: test
+registry: # https://docs.feast.dev/reference/registries/sql
+  registry_type: sql
+  path: postgresql+psycopg://postgres:mysecretpassword@127.0.0.1:5432
+  cache_ttl_seconds: 60
+  sqlalchemy_config_kwargs:
+    echo: false
+    pool_pre_ping: true
+entity_key_serialization_version: 2
+provider: local 
+online_store: # https://docs.feast.dev/reference/online-stores/redis
+  type: redis
+  connection_string: "localhost:6379"
+offline_store: # https://docs.feast.dev/reference/offline-stores/bigquery
+  type: bigquery
+  dataset: feast
+  project_id: mlops-437709
+  billing_project_id: mlops-437709
+  location: US
