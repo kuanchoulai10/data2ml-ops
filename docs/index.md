@@ -15,3 +15,8 @@
 ## Orchestration
 
 - Use Airflow for model orchestrastion
+
+
+```bash
+minikube mount /Users/kcl/projects/data:/home/docker/data
+```
