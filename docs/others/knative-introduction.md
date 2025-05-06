@@ -10,7 +10,7 @@
     - Plugable
 
 <figure markdown="span">
-  ![](kserve-serving-and-eventing.png){ width=400 }
+  ![](./static/kserve-serving-and-eventing.png){ width=400 }
   <figcaption>Knative Serving and Eventing</figcaption>
 </figure>
 
@@ -76,7 +76,7 @@
 ### Event Mesh
 
 <figure markdown="span">
-  ![](knative-event-mesh.png)
+  ![](./static/knative-event-mesh.png)
   <figcaption>Knative Event Mesh</figcaption>
 </figure>
 
@@ -103,7 +103,7 @@
 
 *Brokers*
 
-:   ![](knative-event-broker.png)
+:   ![](./static/knative-event-broker.png)
     Brokers are Kubernetes custom resources that define an event mesh for collecting a pool of events. Brokers provide a discoverable endpoint for event ingress, and use Triggers for event delivery. Event producers can send events to a broker by POSTing the event.
 
 
@@ -127,7 +127,7 @@ For example, imagine you’ve deployed Knative Eventing with a PingSource that e
 ### Resources
 
 <figure markdown="span">
-  ![](knative-serving-resources.png){ width=400 }
+  ![](./static/knative-serving-resources.png){ width=400 }
   <figcaption>Knative Serving Resources: Services, Routes, Configurations, Revisions</figcaption>
 </figure>
 
@@ -139,7 +139,7 @@ For example, imagine you’ve deployed Knative Eventing with a PingSource that e
 ### Componenets
 
 <figure markdown="span">
-  ![alt text](knative-serving-architecture.png){ width=400 }
+  ![](./static/knative-serving-architecture.png){ width=400 }
   <figcaption>Knative Serving Architecture</figcaption>
 </figure>
 
@@ -167,7 +167,7 @@ For example, imagine you’ve deployed Knative Eventing with a PingSource that e
 How does the network traffic flow?
 
 <figure markdown="span">
-  ![](knative-network-traffic-flow.png){ width=400 }
+  ![](./static/knative-network-traffic-flow.png){ width=400 }
   <figcaption>Knative Serving Network Traffic Flow</figcaption>
 </figure>
 

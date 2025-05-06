@@ -14,7 +14,7 @@
 </figure>
 
 <figure markdown="span">
-  ![](mlserver-supported-inference-times.png)
+  ![](./static/mlserver-supported-inference-times.png)
   <figcaption>MLServer Supported Inference Runtime</figcaption>
 </figure>
 
@@ -30,13 +30,13 @@
         - `/v2/models/{model_name}/versions/{model_version}/docs`
 
 <figure markdown="span">
-  ![](mlserver-swagger-ui.png)
+  ![](./static/mlserver-swagger-ui.png)
   <figcaption>MLServer Swagger UI</figcaption>
 </figure>
 
 
 <figure markdown="span">
-  ![](mlserver-swagger-ui-model.png)
+  ![](./static/mlserver-swagger-ui-model.png)
   <figcaption>MLServer Model Swagger UI</figcaption>
 </figure>
 

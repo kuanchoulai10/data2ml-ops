@@ -1,37 +1,35 @@
-site_name: DataOps & MLOps
+site_name: side-projects/data2ml-ops
 docs_dir: docs
 nav:
-  - README.md
+  - index.md
   - design-doc.md
-  - Analytics Engineering:
-    - dbt-introduction.md
-    - dbt-features.md
-    - dbt-implementation.md
-    - sqlmesh-introduction.md
-    - sqlmesh-implementation.md
-  - Feature Store:
-    - feature-store-introduction.md
-    - vertex-ai-feature-store-introduction.md
-    - vertex-ai-feature-store-implementation.md
-    - feast-introduction.md
-    - feast-server-deployment.md
-  - Model Lifecycle Management:
-    - minikube-introduction.md
-    - mlflow-introduction.md
-    - minio-introduction.md
-    - mlflow-installation.md
-    - optuna-introduction.md
-    - mlflow-experiment-with-optuna.md
-  - Model Serving:
-    - knative-introduction.md
-    - istio-introduction.md
-    - cert-manager-introduction.md
-    - mlserver-introduction.md
-    - kserve-introduction.md
-    - kserve-installation.md
-    - kserve-model-deployment.md
-    - grpc-introduction.md
-    - rest-vs-grpc.md
+  - DataOps:
+    - dataops/dbt-introduction.md
+    - dataops/dbt-features.md
+    - dataops/dbt-implementation.md
+    - dataops/sqlmesh-introduction.md
+    - dataops/sqlmesh-implementation.md
+    - dataops/feature-store-introduction.md
+    - dataops/feast-introduction.md
+    - dataops/feast-server-deployment.md
+    - dataops/vertex-ai-feature-store-introduction.md
+    - dataops/vertex-ai-feature-store-implementation.md
+  - MLOps:
+    - mlops/mlflow-introduction.md
+    - mlops/mlflow-installation.md
+    - mlops/mlflow-experiment-with-optuna.md
+    - mlops/kserve-installation.md
+    - mlops/kserve-model-deployment.md
+    - mlops/kserve-introduction.md
+    - mlops/mlserver-introduction.md
+    - mlops/optuna-introduction.md
+  - Others:
+    - others/minio-introduction.md
+    - others/knative-introduction.md
+    - others/istio-introduction.md
+    - others/cert-manager-introduction.md
+    - others/grpc-introduction.md
+    - others/rest-vs-grpc.md
 
 theme:
   name: material
