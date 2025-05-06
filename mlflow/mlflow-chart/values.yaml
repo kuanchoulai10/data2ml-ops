@@ -9,7 +9,7 @@ minio:
   api_port: 9000
   console_port: 9001
   bucket_name: bucket
-  host_path: /Users/kcl/projects/mlops/mlflow/minio-data
+  host_path: /home/docker/data/minio
   mount_path: /data
 
 postgres:
@@ -19,7 +19,7 @@ postgres:
   password: password
   host: postgres
   port: 5432
-  host_path: /Users/kcl/projects/mlops/mlflow/postgres-data
+  host_path: /home/docker/data/mlflow/backend-store
   mount_path: /var/lib/postgresql/data
 
 mlflow:
