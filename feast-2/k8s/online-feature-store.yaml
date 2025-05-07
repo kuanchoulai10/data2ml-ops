@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: online-feature-server
+  namespace: feast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: online-feature-server
+  template:
+    metadata:
+      labels:
+        app: online-feature-server
+    spec:
+      containers:
+        - name: online-feature-server
+          image: ___________
+          ports:
+            - containerPort: 6566
+          env:
+            - name: FEAST_FEATURE_SERVER_CONFIG_PATH
+              value: /app/config/feature_store.yaml
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: feast-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: online-feature-server
+  namespace: feast
+spec:
+  selector:
+    app: online-feature-server
+  type: ClusterIP
+  ports:
+    - port: 6566
+      targetPort: 6566
+      nodePort: 30000

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: online-store
+  namespace: feast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: online-store
+  template:
+    metadata:
+      labels:
+        app: online-store
+    spec:
+      containers:
+        - name: online-store
+          image: redis
+          ports:
+            - containerPort: 6379
+              protocol: TCP
+          volumeMounts:
+            - name: storage
+              mountPath: /data
+      restartPolicy: Always
+      volumes:
+        - name: storage
+          hostPath:
+            path: /home/docker/data/feast/online-store
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: online-store
+  namespace: feast
+spec:
+  selector:
+    app: online-store
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: 6379

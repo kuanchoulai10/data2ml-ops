@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry
+  namespace: feast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: registry
+  template:
+    metadata:
+      labels:
+        app: registry
+    spec:
+      containers:
+        - name: registry
+          image: postgres
+          env:
+            - name: POSTGRES_DB
+              value: feast
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: password
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: storage
+          hostPath:
+            path: /home/docker/data/feast/registry
+            type: DirectoryOrCreate          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry
+  namespace: feast
+spec:
+  selector:
+    app: registry
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: 5432
