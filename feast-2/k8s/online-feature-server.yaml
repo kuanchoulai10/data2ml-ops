@@ -15,19 +15,22 @@ spec:
     spec:
       containers:
         - name: online-feature-server
-          image: ___________
+          image: feast:v0.1.4
           ports:
-            - containerPort: 6566
+            - containerPort: 8080
           env:
             - name: FEAST_FEATURE_SERVER_CONFIG_PATH
               value: /app/config/feature_store.yaml
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
           volumeMounts:
-            - name: config-volume
-              mountPath: /app/config
+            - name: gcp-sa-key
+              mountPath: /var/secrets/google
+              readOnly: true
       volumes:
-        - name: config-volume
-          configMap:
-            name: feast-config
+        - name: gcp-sa-key
+          secret:
+            secretName: gcp-sa-key
 ---
 apiVersion: v1
 kind: Service
@@ -37,8 +40,8 @@ metadata:
 spec:
   selector:
     app: online-feature-server
-  type: ClusterIP
+  type: NodePort
   ports:
-    - port: 6566
-      targetPort: 6566
+    - port: 8080
+      targetPort: 8080
       nodePort: 30000

@@ -1,7 +1,7 @@
 project: test
 registry: # https://docs.feast.dev/reference/registries/sql
   registry_type: sql
-  path: postgresql+psycopg://postgres:mysecretpassword@127.0.0.1:5432
+  path: postgresql+psycopg://postgres:password@registry.feast.svc.cluster.local:5432
   cache_ttl_seconds: 60
   sqlalchemy_config_kwargs:
     echo: false
@@ -10,7 +10,7 @@ entity_key_serialization_version: 2
 provider: local 
 online_store: # https://docs.feast.dev/reference/online-stores/redis
   type: redis
-  connection_string: "localhost:6379"
+  connection_string: "online-store.feast.svc.cluster.local:6379"
 offline_store: # https://docs.feast.dev/reference/offline-stores/bigquery
   type: bigquery
   dataset: feast
