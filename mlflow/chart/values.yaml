@@ -23,6 +23,6 @@ backendStore:
   mountPath: /var/lib/postgresql/data
 
 trackingServer:
-  name: mlflow
+  name: tracking-server
   host: 0.0.0.0
   port: 5000

@@ -1,0 +1,266 @@
+---
+# Source: mlflow/templates/backend.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-store
+  namespace: mlflow
+spec:
+  selector:
+    app: backend-store
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+# Source: mlflow/templates/tracking-server.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow
+  namespace: mlflow
+spec:
+  type: NodePort
+  selector:
+    app: mlflow
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 30500
+---
+# Source: mlflow/templates/backend.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-store
+  namespace: mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-store
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: backend-store
+    spec:
+      containers:
+        - name: backend-store
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              value: mlflow
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: password
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - name: storage
+              mountPath: /var/lib/postgresql/data
+      restartPolicy: Always
+      volumes:
+        - name: storage
+          hostPath:
+            path: /home/docker/data/mlflow/backend-store
+            type: DirectoryOrCreate
+---
+# Source: mlflow/templates/tracking-server.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+  namespace: mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+  template:
+    metadata:
+      labels:
+        app: mlflow
+    spec:
+      initContainers:
+        - name: wait-for-backend-store
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z backend-store.mlflow.svc.cluster.local 5432; do
+                echo "Waiting for backend store..."
+                sleep 2
+              done
+              echo "Backend store is ready!"
+        - name: wait-for-artifact-store
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z minio-api.minio.svc.cluster.local 9000; do
+                echo "Waiting for artifact store..."
+                sleep 2
+              done
+              echo "Artifact store is ready!"
+      containers:
+        - name: mlflow
+          image: bitnami/mlflow:latest
+          env:
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: http://minio-api.minio.svc.cluster.local:9000
+            - name: AWS_ACCESS_KEY_ID
+              value: minio_user
+            - name: AWS_SECRET_ACCESS_KEY
+              value: minio_password
+            - name: MLFLOW_S3_IGNORE_TLS
+              value: "true"
+          command: ["mlflow"]
+          args:
+            [
+              "server",
+              "--backend-store-uri", "postgresql://user:password@backend-store:5432/mlflow",
+              "--artifacts-destination", "s3://mlflow",
+              "--host", "0.0.0.0",
+              "--port", "5000",
+            ]
+          ports:
+            - containerPort: 5000
+---
+# Source: mlflow/templates/backend.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-store
+  namespace: mlflow
+spec:
+  selector:
+    app: backend-store
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+# Source: mlflow/templates/tracking-server.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracking-server
+  namespace: mlflow
+spec:
+  type: NodePort
+  selector:
+    app: tracking-server
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 30500
+---
+# Source: mlflow/templates/backend.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-store
+  namespace: mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-store
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: backend-store
+    spec:
+      containers:
+        - name: backend-store
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              value: mlflow
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: password
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - name: storage
+              mountPath: /var/lib/postgresql/data
+      restartPolicy: Always
+      volumes:
+        - name: storage
+          hostPath:
+            path: /home/docker/data/mlflow/backend-store
+            type: DirectoryOrCreate
+---
+# Source: mlflow/templates/tracking-server.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracking-server
+  namespace: mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracking-server
+  template:
+    metadata:
+      labels:
+        app: tracking-server
+    spec:
+      initContainers:
+        - name: wait-for-backend-store
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z backend-store.mlflow.svc.cluster.local 5432; do
+                echo "Waiting for backend store..."
+                sleep 2
+              done
+              echo "Backend store is ready!"
+        - name: wait-for-artifact-store
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z minio-api.minio.svc.cluster.local 9000; do
+                echo "Waiting for artifact store..."
+                sleep 2
+              done
+              echo "Artifact store is ready!"
+      containers:
+        - name: tracking-server
+          image: bitnami/mlflow:latest
+          env:
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: http://minio-api.minio.svc.cluster.local:9000
+            - name: AWS_ACCESS_KEY_ID
+              value: minio_user
+            - name: AWS_SECRET_ACCESS_KEY
+              value: minio_password
+            - name: MLFLOW_S3_IGNORE_TLS
+              value: "true"
+          command: ["mlflow"]
+          args:
+            [
+              "server",
+              "--backend-store-uri", "postgresql://user:password@backend-store:5432/mlflow",
+              "--artifacts-destination", "s3://mlflow",
+              "--host", "0.0.0.0",
+              "--port", "5000",
+            ]
+          ports:
+            - containerPort: 5000

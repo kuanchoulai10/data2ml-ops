@@ -120,7 +120,7 @@ spec:
             - |
               mc alias set minio http://minio-api.minio.svc.cluster.local:9000 minio_user minio_password &&
               for bucket in mlflow dbt sqlmesh; do
-                if ! mc ls minio/$bucket; then
+                if ! mc ls minio/$bucket >/dev/null 2>&1; then
                   echo "Creating bucket: $bucket"
                   mc mb minio/$bucket
                   echo "Bucket created: $bucket"
