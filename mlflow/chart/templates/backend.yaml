@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backendStore.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.backendStore.name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backendStore.name }}
+    spec:
+      containers:
+        - name: {{ .Values.backendStore.name }}
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.backendStore.db }}
+            - name: POSTGRES_USER
+              value: {{ .Values.backendStore.user }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.backendStore.password }}
+          ports:
+            - containerPort: {{ .Values.backendStore.port }}
+              protocol: TCP
+          volumeMounts:
+            - name: storage
+              mountPath: {{ .Values.backendStore.mountPath }}
+      restartPolicy: Always
+      volumes:
+        - name: storage
+          hostPath:
+            path: {{ .Values.backendStore.hostPath }}
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.backendStore.name }}
+spec:
+  selector:
+    app: {{ .Values.backendStore.name }}
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.backendStore.port }}
+      targetPort: {{ .Values.backendStore.port }}

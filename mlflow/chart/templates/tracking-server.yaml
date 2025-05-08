@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.trackingServer.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.trackingServer.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.trackingServer.name }}
+    spec:
+      initContainers:
+        - name: wait-for-backend-store
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z {{ .Values.backendStore.name }} {{ .Values.backendStore.port }}; do
+                echo "Waiting for backend store..."
+                sleep 2
+              done
+              echo "Backend store is ready!"
+        - name: wait-for-artifact-store
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z {{ .Values.artifactStore.name }}.{{ .Values.artifactStore.namespace }} {{ .Values.artifactStore.apiPort }}; do
+                echo "Waiting for artifact store..."
+                sleep 2
+              done
+              echo "Artifact store is ready!"
+      containers:
+        - name: {{ .Values.trackingServer.name }}
+          image: bitnami/mlflow:latest
+          env:
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: http://{{ .Values.artifactStore.name }}.{{ .Values.artifactStore.namespace }}.svc.cluster.local:{{ .Values.artifactStore.api_port }}
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ .Values.artifactStore.user }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ .Values.artifactStore.password }}
+            - name: MLFLOW_S3_IGNORE_TLS
+              value: "true"
+          command: ["mlflow"]
+          args:
+            [
+              "server",
+              "--backend-store-uri", "postgresql://{{ .Values.backendStore.user }}:{{ .Values.backendStore.password }}@{{ .Values.backendStore.name }}:{{ .Values.backendStore.port }}/{{ .Values.backendStore.db }}",
+              "--artifacts-destination", "s3://{{ .Values.artifactStore.bucketName }}",
+              "--host", "{{ .Values.trackingServer.host }}",
+              "--port", "{{ .Values.trackingServer.port }}",
+            ]
+          ports:
+            - containerPort: {{ .Values.trackingServer.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.trackingServer.name }}
+spec:
+  type: NodePort
+  selector:
+    app: {{ .Values.trackingServer.name }}
+  ports:
+    - port: {{ .Values.trackingServer.port }}
+      targetPort: {{ .Values.trackingServer.port }}
+      nodePort: 30500

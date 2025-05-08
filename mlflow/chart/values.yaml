@@ -1,0 +1,28 @@
+# Default values for mlflow
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+artifactStore:
+  name: minio-api # API Service name for MinIO
+  namespace: minio
+  user: minio_user
+  password: minio_password
+  apiPort: 9000
+  bucketName: mlflow
+  hostPath: /home/docker/data/minio
+  mountPath: /data
+
+backendStore:
+  name: backend-store
+  db: mlflow
+  user: user
+  password: password
+  host: postgres
+  port: 5432
+  hostPath: /home/docker/data/mlflow/backend-store
+  mountPath: /var/lib/postgresql/data
+
+trackingServer:
+  name: mlflow
+  host: 0.0.0.0
+  port: 5000
