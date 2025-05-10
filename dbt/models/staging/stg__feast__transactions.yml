@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: stg__feast__transactions
+    description: >
+      This staging model standardizes raw transaction data for downstream fraud analysis. 
+      It includes source and destination accounts, transaction amount, timestamp, and 
+      a binary fraud label. Used as a foundational layer for detecting fraudulent behavior.
+    config:
+      event_time: created_at
+      contract:
+        enforced: true
+    columns:
+      - name: src_account_id
+        data_type: string
+        description: >
+          The unique identifier of the source account that initiated the transaction.
+
+      - name: dest_account_id
+        data_type: string
+        description: >
+          The unique identifier of the destination account that received the transaction.
+
+      - name: amount
+        data_type: float
+        description: >
+          The monetary amount of the transaction. Assumes a consistent currency.
+
+      - name: is_fraud
+        data_type: boolean
+        description: >
+          A boolean flag indicating whether the transaction was identified as fraudulent.
+          `true` indicates a confirmed fraudulent transaction.
+
+      - name: created_at
+        data_type: timestamp
+        description: >
+          The timestamp when the transaction was created. Used for time-based analysis and 
+          feature extraction (e.g., fraud trends over time).

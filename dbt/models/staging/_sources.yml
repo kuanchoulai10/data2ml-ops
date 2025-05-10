@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: feast
+    description: >
+      This source contains the raw data for the fraud detection project. It includes 
+      transaction records, user account features, and labels indicating whether a 
+      transaction was fraudulent.
+    project: feast-oss
+    dataset: fraud_tutorial
+    meta:
+      domain: fraud
+      owner: "@kclai"
+    tags:
+      - fraud
+      - pii
+    tables:
+      - name: transactions
+      - name: user_account_features
+      - name: user_has_fraudulent_transactions

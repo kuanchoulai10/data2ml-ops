@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg__feast__acct_fraud_7d
+    description: >
+      This staging model identifies whether a user has been involved in any fraudulent transactions
+      within a specified time window (7 days). It is typically used as a feature in fraud detection
+      pipelines or real-time inference systems.
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: account_id
+        data_type: string
+        description: >
+          The unique identifier of the user. This is used as the primary key to track fraud status
+          per user.
+
+      - name: has_fraud_7d
+        data_type: boolean
+        description: >
+          A binary flag (true or false) indicating whether the user has had any fraudulent transactions 
+          in the past 7 days. Can be used as a feature in ML models.
+
+      - name: feature_timestamp
+        data_type: timestamp
+        description: >
+          The timestamp representing the point-in-time when the feature was calculated. Useful for
+          point-in-time correctness in feature stores or backtesting.

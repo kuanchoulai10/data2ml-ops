@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg__feast__acct_profiles
+    description: ""
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: account_id
+        data_type: string
+        description: ""
+
+      - name: credit_score
+        data_type: int
+        description: ""
+
+      - name: account_age_days
+        data_type: int
+        description: ""
+
+      - name: has_2fa_installed
+        data_type: boolean
+        description: ""
+
+      - name: feature_timestamp
+        data_type: timestamp
+        description: ""

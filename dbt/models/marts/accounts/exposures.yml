@@ -1,0 +1,17 @@
+version: 2
+
+exposures:
+  - name: account_features
+    description:
+      This exposure contains features related to account activity and fraud detection.
+    type: ml
+    maturity: medium
+    owner:
+      name: KC Lai
+      email: kuanchoulai10@gmail.com
+    label: Account-related features
+    url: https://example.com
+    depends_on:
+      - ref('feat_acct_fraud_7d')
+      - ref('feat_acct_num_txns_7d')
+      - ref('feat_acct_profiles')
