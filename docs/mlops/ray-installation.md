@@ -89,7 +89,7 @@ raycluster-kuberay-workergroup-worker-zrxbj   1/1     Running   0          5m49s
 Use the Ray job submission SDK to submit Ray jobs to the RayCluster through the Ray Dashboard port where Ray listens for Job requests
 
 ```bash
-kukubectl get service raycluster-kuberay-head-svc -n kuberay
+kubectl get service raycluster-kuberay-head-svc -n kuberay
 
 NAME                          TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                                         AGE
 raycluster-kuberay-head-svc   ClusterIP   None         <none>        10001/TCP,8265/TCP,6379/TCP,8080/TCP,8000/TCP   13m
