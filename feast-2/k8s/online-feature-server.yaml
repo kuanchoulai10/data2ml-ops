@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: online-feature-server
-          image: feast:v0.1.4
+          image: feast:v0.1.8
           ports:
             - containerPort: 8080
           env:

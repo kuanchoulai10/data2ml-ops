@@ -147,6 +147,7 @@ drwxr-xr-x@    - kcl   7 May 00:04  k8s
 docker buildx build \
   --platform linux/amd64 \
   -t feast:v0.1.0 \
+  -t feast:latest \
   .
 ```
 
@@ -253,7 +254,7 @@ minikube service online-feature-server -n feast
 ```
 
 ```bash
-cucurl -X POST http://127.0.0.1:52316/get-online-features \
+curl -X POST http://127.0.0.1:52316/get-online-features \
      -H "Content-Type: application/json" \
      -d @request-get-online-features.json | jq
 

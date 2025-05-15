@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from feast import (BigQuerySource, Entity, FeatureService, FeatureView,
                    ValueType, Field)
-from feast.types import STRING, INT64, BOOL
+from feast.types import String, Int64, Bool
 
 # Data Sources
 # https://rtd.feast.dev/en/latest/index.html#feast.infra.offline_stores.bigquery_source.BigQuerySource
@@ -34,7 +34,7 @@ fv_acct_fraud_7d = FeatureView(
     name="acct_fraud_7d",
     entities=[account_entity],
     schema=[
-        Field(name="has_fraud_7d", dtype=BOOL)
+        Field(name="has_fraud_7d", dtype=Bool)
     ],
     ttl=timedelta(weeks=52),
     source=ds_acct_fraud_7d
@@ -45,7 +45,7 @@ fv_acct_num_txns_7d = FeatureView(
     name="acct_num_txns_7d",
     entities=[account_entity],
     schema=[
-        Field(name="num_transactions_7d", dtype=INT64)
+        Field(name="num_transactions_7d", dtype=Int64)
     ],
     ttl=timedelta(weeks=1),
     source=ds_acct_num_txns_7d
@@ -55,9 +55,9 @@ fv_acct_profiles = FeatureView(
     name="acct_profiles",
     entities=[account_entity],
     schema=[
-        Field(name="credit_score", dtype=INT64),
-        Field(name="account_age_days", dtype=INT64),
-        Field(name="has_2fa_installed", dtype=BOOL)
+        Field(name="credit_score", dtype=Int64),
+        Field(name="account_age_days", dtype=Int64),
+        Field(name="has_2fa_installed", dtype=Bool)
     ],
     ttl=timedelta(weeks=52),
     source=ds_acct_profiles
