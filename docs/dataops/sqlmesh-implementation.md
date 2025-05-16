@@ -1,1 +1,0 @@
-# SQLMesh Implementation (Hands-on)

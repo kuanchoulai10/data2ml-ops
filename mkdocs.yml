@@ -7,11 +7,11 @@ nav:
     - dbt/dbt-features.md
     - dbt/dbt-implementation.md
   - Feast:
-    - dataops/feature-store-introduction.md
-    - dataops/feast-introduction.md
-    - dataops/feast-server-deployment.md
-    - dataops/vertex-ai-feature-store-introduction.md
-    - dataops/vertex-ai-feature-store-implementation.md
+    - feast/feature-store-introduction.md
+    - feast/feast-introduction.md
+    - feast/feast-server-deployment.md
+    - feast/vertex-ai-feature-store-introduction.md
+    - feast/vertex-ai-feature-store-implementation.md
   - MLOps:
     - mlops/mlflow-introduction.md
     - mlops/mlflow-installation.md
