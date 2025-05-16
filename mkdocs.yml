@@ -2,13 +2,11 @@ site_name: side-projects/data2ml-ops
 docs_dir: docs
 nav:
   - index.md
-  - architecture.md
-  - DataOps:
-    - dataops/dbt-introduction.md
-    - dataops/dbt-features.md
-    - dataops/dbt-implementation.md
-    - dataops/sqlmesh-introduction.md
-    - dataops/sqlmesh-implementation.md
+  - dbt:
+    - dbt/dbt-introduction.md
+    - dbt/dbt-features.md
+    - dbt/dbt-implementation.md
+  - Feast:
     - dataops/feature-store-introduction.md
     - dataops/feast-introduction.md
     - dataops/feast-server-deployment.md
@@ -72,3 +70,6 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - glightbox

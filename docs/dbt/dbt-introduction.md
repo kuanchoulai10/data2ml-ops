@@ -12,11 +12,15 @@ python3.10 -m venv dbt
 source ~/.venvs/dbt/bin/activate
 ```
 
+```title="requirements.txt"
+--8<-- "./dbt/requirements.txt"
+```
+
 ```bash
 pip install -r requirements.txt
 ```
 
-```bash
+```
 dbt --version
 Core:
   - installed: 1.9.4
@@ -26,6 +30,3 @@ Plugins:
   - bigquery: 1.9.1 - Up to date!
 ```
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=TobikoData/sqlmesh,dbt-labs/dbt-core&type=Date)](https://www.star-history.com/#TobikoData/sqlmesh&dbt-labs/dbt-core&Date)

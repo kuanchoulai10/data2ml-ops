@@ -55,7 +55,7 @@ kuberay-operator-66d848f5cd-5npp6   1/1     Running   0          23s
 Install Ray Cluster
 
 ```bash
-helm install raycluster kuberay/ray-cluster --version 1.3.0 --set 'image.tag=2.41.0-aarch64' -n kuberay
+helm install raycluster kuberay/ray-cluster --version 1.3.0 --set 'image.tag=2.46.0-py310-aarch64' -n kuberay
 
 NAME: raycluster
 LAST DEPLOYED: Wed May 14 20:31:53 2025
@@ -100,7 +100,7 @@ Use port-forwarding to access the Ray Dashboard port which is 8265 by default
 ```bash
 kubectl port-forward service/raycluster-kuberay-head-svc 8265:8265 -n kuberay > /dev/null &
 
-[1] 79298
+[1] 56915
 ```
 
 Now that the Dashboard port is accessible, submit jobs to the RayCluster:
@@ -150,3 +150,10 @@ Job 'raysubmit_cHrZPi2nVCUCP7ip' succeeded
 
 
 https://docs.ray.io/en/latest/cluster/kubernetes/getting-started/raycluster-quick-start.html
+
+![alt text](image.png)
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+

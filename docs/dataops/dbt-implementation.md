@@ -1,1 +1,0 @@
-# dbt Implementation (Hands-on) 
