@@ -8,7 +8,7 @@
 
 ## Artifact Store (MinIO)
 
-First deploy an S3-compatible object store - MinIO for our MLflow artifact store to store artifacts like figures, models, reports, etc. See [here](../minio/minio-installation.md) for deploying MinIO.
+First deploy an S3-compatible object store - MinIO for our MLflow artifact store to store artifacts like figures, models, reports, etc. See [here](../minio/deployment.md) for deploying MinIO.
 
 After deploying MinIO and the `mlflow` bucket created, in MLflow's helm chart, we could specify artifact store's configuration
 

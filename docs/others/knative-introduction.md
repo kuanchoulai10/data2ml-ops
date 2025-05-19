@@ -10,7 +10,7 @@
     - Plugable
 
 <figure markdown="span">
-  ![](./static/kserve-serving-and-eventing.png){ width=400 }
+  ![](./static/knative-serving-and-eventing.png){ width=400 }
   <figcaption>Knative Serving and Eventing</figcaption>
 </figure>
 

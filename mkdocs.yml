@@ -39,7 +39,6 @@ nav:
   - Others:
     - others/mlserver-introduction.md
     - others/optuna-introduction.md
-    - others/minio-introduction.md
     - others/knative-introduction.md
     - others/istio-introduction.md
     - others/cert-manager-introduction.md
