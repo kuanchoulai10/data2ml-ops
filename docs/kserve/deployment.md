@@ -1,4 +1,4 @@
-# KServe Model Deployment (Hands-on)
+# Deploy Your Model on Kubernetes Using Kserve InferenceService
 
 ## Prerequisites
 

@@ -2,26 +2,43 @@ site_name: side-projects/data2ml-ops
 docs_dir: docs
 nav:
   - index.md
+  - prerequisites.md
   - dbt:
-    - dbt/dbt-introduction.md
-    - dbt/dbt-features.md
-    - dbt/dbt-implementation.md
+    - dbt/what-why-when.md
+    - dbt/how-it-works.md
+    - dbt/in-the-bigger-picture.md
+    - dbt/modeling-data.md
   - Feast:
-    - feast/feature-store-introduction.md
-    - feast/feast-introduction.md
-    - feast/feast-server-deployment.md
-    - feast/vertex-ai-feature-store-introduction.md
-    - feast/vertex-ai-feature-store-implementation.md
-  - MLOps:
-    - mlops/mlflow-introduction.md
-    - mlops/mlflow-installation.md
-    - mlops/mlflow-experiment-with-optuna.md
-    - mlops/kserve-installation.md
-    - mlops/kserve-model-deployment.md
-    - mlops/kserve-introduction.md
-    - mlops/mlserver-introduction.md
-    - mlops/optuna-introduction.md
+    - feast/what-why-when.md
+    - feast/how-it-works.md
+    - feast/in-the-bigger-picture.md
+    - feast/modeling-features.md
+    - feast/deployment.md
+  - MinIO:
+    - minio/what-why-when.md
+    - minio/deployment.md
+  - MLflow:
+    - mlflow/what-why-when.md
+    - mlflow/how-it-works.md
+    - mlflow/in-the-bigger-picture.md
+    - mlflow/deployment.md
+    - mlflow/hpo.ipynb
+  - Ray:
+    - ray/what-why-when.md
+    - ray/how-it-works.md
+    - ray/in-the-bigger-picture.md
+    - ray/deployment.md
+    - ray/ray-tune.md
+    - ray/ray-job.md
+  - KServe:
+    - kserve/what-why-when.md
+    - kserve/how-it-works.md
+    - kserve/in-the-bigger-picture.md
+    - kserve/installation.md
+    - kserve/deployment.md
   - Others:
+    - others/mlserver-introduction.md
+    - others/optuna-introduction.md
     - others/minio-introduction.md
     - others/knative-introduction.md
     - others/istio-introduction.md
@@ -73,3 +90,8 @@ markdown_extensions:
 
 plugins:
   - glightbox
+  - search
+  - mkdocs-jupyter
+  - enumerate-headings:
+      toc_depth: 0
+      increment_across_pages: false

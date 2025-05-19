@@ -116,11 +116,12 @@ Whether you're a data engineer, ML practitioner, or platform builder, this proje
 
     !!! success "Highlights"
 
-        - [x] Deployed models as gRPC and REST endpoints using KServe, supporting diverse integration requirements
-        - [x] Enabled autoscaling and scale-to-zero, optimizing cost for infrequently used models
-        - [x] Configured A/B testing traffic split, allowing controlled experimentation in production deployments
+        - [x] Deployed models as **gRPC** and **REST** endpoints using **KServe**, supporting diverse integration requirements
+        - [x] Ensured **compatibility between training-time and serving-time** features via Feast’s online store integration
+        - [x] Enabled **autoscaling** and **scale-to-zero**, optimizing cost for infrequently used models
+        - [x] Configured **A/B testing traffic split**, allowing controlled experimentation in production deployments
 
-## 🗂️ What’s Inside?
+## 🗂️ What's Inside?
 
 ```
 .

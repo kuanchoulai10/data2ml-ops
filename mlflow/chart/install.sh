@@ -1,2 +1,2 @@
 kubectl create ns mlflow
-helm install mlflow . --namespace mlflow
+helm install mlflow . -n mlflow

@@ -1,4 +1,4 @@
-# Deploy Kserve on Serverless Mode (Hands-on)
+# Install Kserve in Serverless Mode
 
 - Install Knative Serving v1.15.0
 - Install Istio v1.22.8

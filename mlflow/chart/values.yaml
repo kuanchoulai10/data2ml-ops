@@ -2,6 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# --8<-- [start:artifact-store]
 artifactStore:
   name: minio-api # API Service name for MinIO
   namespace: minio
@@ -11,7 +12,9 @@ artifactStore:
   bucketName: mlflow
   hostPath: /home/docker/data/minio
   mountPath: /data
+# --8<-- [end:artifact-store]
 
+# --8<-- [start:backend-store]
 backendStore:
   name: backend-store
   db: mlflow
@@ -21,8 +24,11 @@ backendStore:
   port: 5432
   hostPath: /home/docker/data/mlflow/backend-store
   mountPath: /var/lib/postgresql/data
+# --8<-- [end:backend-store]
 
+# --8<-- [start:tracking-server]
 trackingServer:
   name: tracking-server
   host: 0.0.0.0
   port: 5000
+# --8<-- [end:tracking-server]
