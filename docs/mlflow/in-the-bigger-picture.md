@@ -2,11 +2,9 @@
 
 ## History & Current Status
 
-- 誰先貢獻的？
-- 在什麼時間點貢獻的？
-- 後來有捐贈給什麼單位嗎？
-- 現在的github star數如何
-- community如何
+MLflow is an open-source platform for managing the end-to-end machine learning lifecycle, initially developed by Databricks and introduced in June 2018. It provides tools for experiment tracking, model packaging, deployment, and a centralized model registry, aiming to streamline the complexities of machine learning workflows. MLflow is designed to be library-agnostic, supporting various ML libraries and frameworks. ￼ ￼
+
+As of May 2025, MLflow has garnered over 20,000 stars on GitHub and boasts a vibrant community with more than 1,000 contributors. The platform is actively maintained, with recent releases introducing features like support for OpenAI’s Responses API, Gemini embeddings, and integration with Azure Data Lake Storage. MLflow is utilized by numerous organizations worldwide, including Microsoft, Meta, Toyota, Booking.com, and Accenture, underscoring its widespread adoption in the industry.
 
 ## Alternatives
 

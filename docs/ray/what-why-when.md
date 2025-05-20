@@ -2,10 +2,12 @@
 
 ## What is Ray?
 
-- Ray is an open source unified framework for scaling AI and Python applications. It provides a simple, universal API for building distributed applications that can scale from a laptop to a cluster.[^1]
-- Ray provdie tools for common ML workloads like data processing, model training, hyperparameter optimization, and model serving[^1]
+Ray is an open-source framework designed to scale Python and AI workloads efficiently. It provides a unified API that allows developers to run Python applications seamlessly—from a laptop to a large distributed cluster.
 
-Good Intro to Ray
+Built with flexibility in mind, Ray includes a suite of libraries tailored for common machine learning tasks such as data loading and transformation (Ray Data), distributed training (Ray Train), hyperparameter tuning (Ray Tune), and scalable model serving (Ray Serve). These libraries are modular and interoperable, making it easier to build, scale, and manage end-to-end ML pipelines.
+
+A good introduction to Ray:
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/FhXfEXUUQp0?si=EYYEukYgRgwITT3x" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Why Ray?
@@ -31,8 +33,6 @@ For machine learning tasks like distributed training and hyperparameter tuning, 
 ### Deploying Scalable and Responsive ML Services
 
 When deploying machine learning models that require low-latency inference at scale, Ray Serve offers a flexible and production-ready serving layer. It supports dynamic model loading, autoscaling, and request batching, making it suitable for online prediction services and real-time ML applications. This ensures that ML services can handle varying loads efficiently while maintaining high performance.
-
-## References
 
 [^1]: [Getting Started | Ray Docs](https://docs.ray.io/en/latest/ray-overview/getting-started.html)
 [^2]: [Ray: Your Gateway to Scalable AI and Machine Learning Applications](https://www.analyticsvidhya.com/blog/2025/03/ray/)

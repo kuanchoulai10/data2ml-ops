@@ -2,11 +2,9 @@
 
 ## History & Current Status
 
-- 誰先貢獻的？
-- 在什麼時間點貢獻的？
-- 後來有捐贈給什麼單位嗎？
-- 現在的github star數如何
-- community如何
+dbt (data build tool) is an open-source command-line tool that enables data analysts and engineers to transform data within their warehouses using SQL. Developed by dbt Labs (formerly Fishtown Analytics), the project was initiated in 2016 at RJMetrics and open-sourced in 2018. dbt focuses on the transformation component of the ELT (Extract, Load, Transform) process, allowing users to write modular, version-controlled SQL queries that can be tested and documented. It supports various data warehouses, including Snowflake, BigQuery, and Redshift.  ￼ ￼ ￼
+
+As of May 2025, dbt has over 10,800 stars on GitHub, with more than 325 contributors.  The dbt Community has grown to over 80,000 members, featuring active Slack channels, community forums, and regular meetups in 26 countries.  dbt is utilized by over 25,000 companies, including Microsoft, JetBlue, GitLab, and Sequoia Capital, highlighting its widespread adoption in the industry.  
 
 ## Alternatives
 
