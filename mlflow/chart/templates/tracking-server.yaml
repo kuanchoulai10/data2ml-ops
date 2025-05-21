@@ -39,7 +39,7 @@ spec:
               echo "Artifact store is ready!"
       containers:
         - name: {{ .Values.trackingServer.name }}
-          image: bitnami/mlflow:latest
+          image: bitnami/mlflow:2.22.0
           env:
             - name: MLFLOW_S3_ENDPOINT_URL
               value: http://{{ .Values.artifactStore.name }}.{{ .Values.artifactStore.namespace }}.svc.cluster.local:{{ .Values.artifactStore.apiPort }}

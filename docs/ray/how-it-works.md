@@ -8,7 +8,7 @@ On top of Ray Core, Ray provides different AI libraries for different ML workloa
 
 <figure markdown="span">
   ![](https://docs.ray.io/en/latest/_images/map-of-ray.svg)
-  <figcaption>Key Modules</figcaption>
+  *Key Modules*[^2]
 </figure>
 
 | Module       | Description                         | Details |
@@ -23,7 +23,7 @@ On top of Ray Core, Ray provides different AI libraries for different ML workloa
 
 <figure markdown="span">
   ![](https://docs.ray.io/en/latest/_images/ray-cluster.svg){width="500"}
-  <figcaption>Ray Cluster</figcaption>
+  *Ray Cluster*[^3]
 </figure>
 
 *Ray Cluster*
@@ -47,7 +47,7 @@ On top of Ray Core, Ray provides different AI libraries for different ML workloa
 : A Ray job is a single application: it is the collection of Ray tasks, objects, and actors that originate from the same script. There are two ways to run a Ray job on a Ray cluster: (1) Ray Jobs API and (2) Run the driver script directly on the Ray cluster.[^3]
 <figure markdown="span">
   ![](https://docs.ray.io/en/latest/_images/ray-job-diagram.svg){width=500}
-  <figcaption>2 Ways of running Ray Jobs</figcaption>
+  *2 Ways of running Ray Jobs*[^3]
 </figure>
 
 
@@ -79,7 +79,7 @@ On top of Ray Core, Ray provides different AI libraries for different ML workloa
 
     <figure markdown="span">
       ![](https://docs.ray.io/en/latest/_images/dataset-arch-with-blocks.svg){width="500"}
-    <figcaption>Datasets and Blocks</figcaption>
+    *Datasets and Blocks*[^5]
     </figure>
 
 === "Ray Train"
@@ -102,7 +102,10 @@ On top of Ray Core, Ray provides different AI libraries for different ML workloa
 
 === "Ray Tune"
 
-    ![](https://docs.ray.io/en/latest/_images/tune_flow.png){width="500"}
+    <figure markdown="span">
+      ![](https://docs.ray.io/en/latest/_images/tune_flow.png){width="500"}
+      *Ray Tune Configuration*[^7]
+    </figure>
 
     *Search Space*
 
@@ -164,7 +167,7 @@ On top of Ray Core, Ray provides different AI libraries for different ML workloa
 
     <figure markdown="span">
       ![](https://docs.ray.io/en/latest/_images/streaming-topology.svg){width="500"}
-    <figcaption>Streaming Topology</figcaption>
+    *Streaming Topology*[^5]
     </figure>
 
     In the streaming execution model, operators are connected in a pipeline, with each operator’s output queue feeding directly into the input queue of the next downstream operator. This creates an efficient flow of data through the execution plan.[^5]
