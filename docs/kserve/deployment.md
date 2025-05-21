@@ -5,11 +5,11 @@
 ### S3 Credential
 
 ```yaml title="secret.yaml"
---8<-- "./data2ml-ops/docs/kserve/secret.yaml"
+--8<-- "./data2ml-ops/kserve/secret.yaml"
 ```
 
 ```yaml title="sa.yaml"
---8<-- "./data2ml-ops/docs/kserve/sa.yaml"
+--8<-- "./data2ml-ops/kserve/sa.yaml"
 ```
 
 ### Install grpcurl
@@ -23,7 +23,7 @@ brew install grpcurl
 === "REST"
 
     ```yaml title="inference-service-http.yaml"
-    --8<-- "./data2ml-ops/docs/kserve/inference-service-http.yaml"
+    --8<-- "./data2ml-ops/kserve/inference-service-http.yaml"
     ```
 
     ```bash
@@ -33,7 +33,7 @@ brew install grpcurl
 === "gRPC"
 
     ```yaml title="inference-service-grpc.yaml"
-    --8<-- "./data2ml-ops/docs/kserve/inference-service-grpc.yaml"
+    --8<-- "./data2ml-ops/kserve/inference-service-grpc.yaml"
     ```
 
     ```bash

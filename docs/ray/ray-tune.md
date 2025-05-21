@@ -14,7 +14,7 @@ Here is a full training transcipt.
 ??? note "Full Training Script"
 
     ```python title="training.py"
-    --8<-- "./data2ml-ops/docs/ray/training.py"
+    --8<-- "./data2ml-ops/ray/training.py"
     ```
 
 
@@ -23,7 +23,7 @@ Here is a full training transcipt.
 First, let’s import the required packages.
 
 ```python title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:packages"
+--8<-- "./data2ml-ops/ray/training.py:packages"
 ```
 
 ## MinIO Integration
@@ -36,7 +36,7 @@ We’ll use `pyarrow.fs.S3FileSystem` to interact with MinIO deployed on Kuberne
 Here's how we configure the connection to MinIO using `S3FileSystem`, including the access key, secret key, and endpoint.
 
 ```python title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:minio-fs"
+--8<-- "./data2ml-ops/ray/training.py:minio-fs"
 ```
 
 These values should match what you specified when deploying MinIO on Kubernetes. For more details, refer to the configuration section below or revisit [this article](../minio/deployment.md).
@@ -44,7 +44,7 @@ These values should match what you specified when deploying MinIO on Kubernetes.
 ??? info 
 
     ```yaml title="minio.yaml"
-    --8<-- "./data2ml-ops/docs/minio/minio.yaml"
+    --8<-- "./data2ml-ops/minio/minio.yaml"
     ```
 
 For other custom storage configuration, see [here](https://docs.ray.io/en/latest/train/user-guides/persistent-storage.html#custom-storage)[^1] for more.
@@ -57,7 +57,7 @@ If the dataset were larger or didn't fit in memory, we would use **Ray Data** in
 
 
 ```python title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:data"
+--8<-- "./data2ml-ops/ray/training.py:data"
 ```
 
 ### Define the RunConfig
@@ -65,7 +65,7 @@ If the dataset were larger or didn't fit in memory, we would use **Ray Data** in
 Next, we configure where Ray Tune stores its metadata by setting the `storage_path` and `storage_filesystem` fields in `tune.RunConfig()`.
 
 ```python title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:run_config"
+--8<-- "./data2ml-ops/ray/training.py:run_config"
 ```
 
 ## Optuna Integration (TuneConfig)
@@ -101,7 +101,7 @@ This function, typically called `space`, takes a `trial` object as input. We use
 This setup is helpful for handling more complex scenarios—such as including or excluding hyperparameters based on earlier choices.
 
 ```python title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:space"
+--8<-- "./data2ml-ops/ray/training.py:space"
 ```
 
 This `space()` function defines a **conditional hyperparameter search space** using Optuna's **define-by-run API**. Instead of declaring all parameters upfront, the search space is built dynamically as the `trial` runs. The function suggests different values for categorical and numerical hyperparameters, such as the `resampler` method (`allknn`[^5], `smote`[^6], or `passthrough`)[^5] and the `booster` type (`gbtree`, `gblinear`, or `dart`). Based on the chosen booster, additional parameters like `max_depth`, `eta`, and `grow_policy` are conditionally added.
@@ -113,7 +113,7 @@ Importantly, no actual model training or heavy computation is done inside this f
 Now we configure the search algorithm using Optuna. We pass our `space()` function into `OptunaSearch`, specifying that we want to **maximize the F1 score**. To avoid exhausting system resources, we wrap it in a `ConcurrencyLimiter` that restricts parallel trials to 4. Finally, the `TuneConfig` object ties everything together, specifying the search algorithm and the total number of trials (`num_samples=100`) to explore.
 
 ```python title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:optuna"
+--8<-- "./data2ml-ops/ray/training.py:optuna"
 ```
 
 ## MLflow Integration
@@ -133,11 +133,11 @@ Thankfully, it's not difficult to manually integrate MLflow. So instead of using
 We begin by setting the experiment name, the run name for this tuning session, and the address of the MLflow tracking server running inside the Kubernetes cluster.
 
 ```python title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:constants"
+--8<-- "./data2ml-ops/ray/training.py:constants"
 ```
 
 ```python title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:mlflow"
+--8<-- "./data2ml-ops/ray/training.py:mlflow"
 ```
 
 These values should match what you specified when deploying MLflow on Kubernetes. For more details, refer to the configuration section below or revisit [this article](../mlflow/deployment.md).
@@ -145,11 +145,11 @@ These values should match what you specified when deploying MLflow on Kubernetes
 ??? info
 
     ```yaml title="tracking-server.yaml"
-    --8<-- "./data2ml-ops/docs/mlflow/chart/templates/tracking-server.yaml:service"
+    --8<-- "./data2ml-ops/mlflow/chart/templates/tracking-server.yaml:service"
     ```
 
     ```yaml title="values.yaml"
-    --8<-- "./data2ml-ops/docs/mlflow/chart/values.yaml:tracking-server"
+    --8<-- "./data2ml-ops/mlflow/chart/values.yaml:tracking-server"
     ```
 
 ### Start the Parent Run in the Driver Process
@@ -157,7 +157,7 @@ These values should match what you specified when deploying MLflow on Kubernetes
 When we launch `Tuner.fit()`, we also start an MLflow parent run inside the Ray **driver process**. Since each trial runs in a **worker process**, it won’t automatically inherit the MLflow context. So we need to explicitly pass the MLflow tracking URI, experiment name, and parent run ID into each worker so they can log their results correctly under the parent run.
 
 ```python linenums="1" hl_lines="3 8-10" title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:main_tune"
+--8<-- "./data2ml-ops/ray/training.py:main_tune"
 ```
 
 ### Integrate with MLflow in the Worker Process 
@@ -165,7 +165,7 @@ When we launch `Tuner.fit()`, we also start an MLflow parent run inside the Ray 
 Each trial starts by configuring MLflow to point to the correct tracking server and parent run. Inside the trial, we begin a **nested (child) run** under the parent run. After training, we log hyperparameters and evaluation metrics, which will be associated with this specific trial.
 
 ```python linenums="1" hl_lines="3 5-7 42-46 62-63" title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:training_function"
+--8<-- "./data2ml-ops/ray/training.py:training_function"
 ```
 
 ### Retrain and Save the Model with Best Params in the Driver Process
@@ -173,7 +173,7 @@ Each trial starts by configuring MLflow to point to the correct tracking server 
 Once all trials finish, we return to the **driver process**, where we access the `ResultGrid`. This object contains all trial results. We then select the best set of hyperparameters (e.g., the one with the highest F1 score), retrain the model with those parameters, and log the final model to MLflow under the original parent run.
 
 ```python  linenums="1" hl_lines="48-54" title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:retrain"
+--8<-- "./data2ml-ops/ray/training.py:retrain"
 ```
 
 
@@ -182,7 +182,7 @@ Once all trials finish, we return to the **driver process**, where we access the
 This is the training logic executed inside each worker process. Here's the typical workflow:
 
 ```python linenums="1" hl_lines="2 9-21 23-39 47-64" title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:training_function"
+--8<-- "./data2ml-ops/ray/training.py:training_function"
 ```
 
 1. Retrieve hyperparameters and the dataset (from `config` and `data`).
@@ -197,7 +197,7 @@ This is the training logic executed inside each worker process. Here's the typic
 With the data ready, search space and Optuna strategy defined, and MLflow properly configured, we’re all set to launch Ray Tune via `tune.Tuner()`.
 
 ```python title="training.py"
---8<-- "./data2ml-ops/docs/ray/training.py:main_tune"
+--8<-- "./data2ml-ops/ray/training.py:main_tune"
 ```
 
 
