@@ -1,22 +1,22 @@
 # Vertex AI Feature Store Implementation (Hands-on)
 
 ```terraform title="main.yaml"
---8<-- "./feast/main.tf:feature-online-store"
+--8<-- "./data2ml-ops/docs/feast/main.tf:feature-online-store"
 ```
 
 
 ```terraform title="main.yaml"
---8<-- "./feast/main.tf:template"
+--8<-- "./data2ml-ops/docs/feast/main.tf:template"
 ```
 
 ```terraform title="main.yaml"
---8<-- "./feast/main.tf:feature-groups"
+--8<-- "./data2ml-ops/docs/feast/main.tf:feature-groups"
 ```
 
 ```terraform title="main.yaml"
---8<-- "./feast/main.tf:feature-group-features"
+--8<-- "./data2ml-ops/docs/feast/main.tf:feature-group-features"
 ```
 
 ```terraform title="main.yaml"
---8<-- "./feast/main.tf:feature-online-store-featureview"
+--8<-- "./data2ml-ops/docs/feast/main.tf:feature-online-store-featureview"
 ```

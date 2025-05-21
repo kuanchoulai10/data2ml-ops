@@ -15,7 +15,7 @@ minikube start --cpus=4 --memory=7000 --driver=docker
 go to `feast/` folder. 就會看到以下檔案
 
 ```yaml title="feature_store.yaml" linenums="1" hl_lines="2-4 11-15"
---8<-- "./feast-2/feature_store.yaml"
+--8<-- "./data2ml-ops/docs/feast-2/feature_store.yaml"
 ```
 
 - `registry`: PostgreSQL
@@ -23,19 +23,19 @@ go to `feast/` folder. 就會看到以下檔案
 - `offline_store`: BigQuery
 
 ```python title="account_features.py"
---8<-- "./feast-2/account_features.py"
+--8<-- "./data2ml-ops/docs/feast-2/account_features.py"
 ```
 
 ```title="requirements.txt"
---8<-- "./feast-2/requirements.txt"
+--8<-- "./data2ml-ops/docs/feast-2/requirements.txt"
 ```
 
 ```sh title="entrypoint.sh"
---8<-- "./feast-2/entrypoint.sh"
+--8<-- "./data2ml-ops/docs/feast-2/entrypoint.sh"
 ```
 
 ```Dockerfile title="Dockerfile"
---8<-- "./feast-2/Dockerfile"
+--8<-- "./data2ml-ops/docs/feast-2/Dockerfile"
 ```
 
 Build image
@@ -117,13 +117,13 @@ gcr.io/k8s-minikube/storage-provisioner   v5         ba04bb24b957   4 years ago 
 ### Registry
 
 ```yaml title="registry.yaml"
---8<-- "./feast-2/k8s/registry.yaml"
+--8<-- "./data2ml-ops/docs/feast-2/k8s/registry.yaml"
 ```
 
 ### Online Store
 
 ```yaml title="online-store.yaml"
---8<-- "./feast-2/k8s/online-store.yaml"
+--8<-- "./data2ml-ops/docs/feast-2/k8s/online-store.yaml"
 ```
 
 
@@ -263,7 +263,7 @@ data:
 ### Online Feature Server
 
 ```yaml title="online-feature-server.yaml"
---8<-- "./feast-2/k8s/online-feature-server.yaml"
+--8<-- "./data2ml-ops/docs/feast-2/k8s/online-feature-server.yaml"
 ```
 
 

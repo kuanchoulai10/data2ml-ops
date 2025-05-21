@@ -92,7 +92,7 @@ nano values.yaml
 ??? info "values.yaml"
 
     ```yaml title="values.yaml" hl_lines="80-87 163-169 241-247" linenums="1"
-    --8<-- "./ray/values.yaml"
+    --8<-- "./data2ml-ops/docs/ray/values.yaml"
     ```
 
 Install the Ray cluster using the customized `values.yaml`. Here, we're using the image tag `2.46.0-py310-aarch64` for Python 3.10, Ray 2.46.0, and MacOS ARM architecture. You can find all supported Ray images on Docker Hub.[^5]

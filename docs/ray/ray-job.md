@@ -53,11 +53,11 @@ We can now access the Ray Cluster dashboard at `http://127.0.0.1:8265`.
 Before launching the Ray Tune job, we need to make sure that each trial's worker process has the correct runtime environment—such as the working directory and required dependencies. We'll define this using a `runtime-env.yaml` and a `requirements.txt`, and pass them along during job submission.
 
 ```yaml title="runtime-env.yaml"
---8<-- "./ray/runtime-env.yaml"
+--8<-- "./data2ml-ops/docs/ray/runtime-env.yaml"
 ```
 
 ``` title="requirements.txt"
---8<-- "./ray/requirements.txt"
+--8<-- "./data2ml-ops/docs/ray/requirements.txt"
 ```
 
 The runtime environment can be specififed via[^7]
@@ -86,7 +86,7 @@ Runtime environments and Docker can work hand in hand or independently, dependin
 With the dashboard accessible and runtime environment prepared, you can now submit the Ray Tune job to the cluster:
 
 ```sh title="ray-job-submit-command.txt"
---8<-- "./ray/ray-job-submit-command.txt"
+--8<-- "./data2ml-ops/docs/ray/ray-job-submit-command.txt"
 ```
 
 ```
