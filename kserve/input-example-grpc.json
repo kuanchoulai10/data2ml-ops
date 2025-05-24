@@ -1,5 +1,5 @@
 {
-  "model_name": "apple-demand-grpc",
+  "model_name": "fraud-detection-grpc",
   "inputs": [
     {
       "name": "average_temperature",

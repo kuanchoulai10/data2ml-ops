@@ -36,14 +36,17 @@ nav:
     - kserve/in-the-bigger-picture.md
     - kserve/installation.md
     - kserve/deployment.md
-  - Others:
-    - others/mlserver-introduction.md
-    - others/optuna-introduction.md
-    - others/knative-introduction.md
-    - others/istio-introduction.md
-    - others/cert-manager-introduction.md
-    - others/grpc-introduction.md
-    - others/rest-vs-grpc.md
+    - kserve/transformer-advantages.md
+    - kserve/feast-transformer.md
+    - kserve/deployment-with-transformer.md
+#  - Others:
+#    - others/mlserver-introduction.md
+#    - others/optuna-introduction.md
+#    - others/knative-introduction.md
+#    - others/istio-introduction.md
+#    - others/cert-manager-introduction.md
+#    - others/grpc-introduction.md
+#    - others/rest-vs-grpc.md
 
 theme:
   name: material
@@ -62,7 +65,8 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.tilde
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      url_download: true
   - pymdownx.keys
   - pymdownx.smartsymbols
   - pymdownx.details

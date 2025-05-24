@@ -1,0 +1,31 @@
+--8<-- [start:rest]
+# -v                       Enable verbose output for debugging
+# -H "Host:..."            Set the Host header to route through the ingress gateway
+# -H "Content-Type:..."    Specify the request content type as JSON
+# -d @...                  Provide the input payload from the specified JSON file
+# http://${INGRESS_HOST}... Target the model's inference endpoint
+curl -v \
+  -H "Host: ${SERVICE_HOSTNAME}" \
+  -H "Content-Type: application/json" \
+  -d @${INPUT_PATH} \
+  http://${INGRESS_HOST}:${INGRESS_PORT}/v2/models/fraud-detection-http/infer
+--8<-- [end:rest]
+
+--8<-- [start:grpc]
+# -vv                Verbose output for debugging
+# -plaintext         Use plaintext (non-TLS) connection
+# -proto             Path to the .proto file describing the gRPC service
+# -authority         Sets the HTTP/2 authority header (useful for ingress routing)
+# -d                 Read the request body from stdin
+# ${INGRESS_HOST}... Target host and port of the gRPC server
+# inference.GRPC...  Fully-qualified gRPC method to call
+# <<<...             Provide JSON request body from file as stdin
+grpcurl -vv \
+  -plaintext \
+  -proto ${PROTO_FILE} \
+  -authority ${SERVICE_HOSTNAME} \
+  -d @ \
+  ${INGRESS_HOST}:${INGRESS_PORT} \
+  inference.GRPCInferenceService.ModelInfer \
+  <<< $(cat "$INPUT_PATH")
+--8<-- [end:grpc]

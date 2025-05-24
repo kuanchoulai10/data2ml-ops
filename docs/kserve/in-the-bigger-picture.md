@@ -8,10 +8,4 @@ As of May 2025, KServe has over 4,000 stars on GitHub and more than 1,000 contri
 
 ## Alternatives
 
-![Star History Chart](https://api.star-history.com/svg?repos=dbt-labs/dbt-core,TobikoData/sqlmesh&type=Date)
-
-## Integration Points
-
-### Kubernetes
-
-### CI/CD
+We have researched the alternatives in the previous article. See [here](../ray/in-the-bigger-picture.md#model-serving) for more.
