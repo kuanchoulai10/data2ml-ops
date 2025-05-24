@@ -1,0 +1,19 @@
+--8<-- [start:materialize]
+curl -X POST http://127.0.0.1:52316/materialize \
+     -H "Content-Type: application/json" \
+     -d @request-materialize.json
+--8<-- [end:materialize]
+
+
+--8<-- [start:materialize-incremental]
+curl -X POST http://127.0.0.1:52316/materialize-incremental \
+     -H "Content-Type: application/json" \
+     -d @request-materialize-incremental.json
+--8<-- [end:materialize-incremental]
+
+
+--8<-- [start:get-online-features]
+curl -X POST http://127.0.0.1:52316/get-online-features \
+     -H "Content-Type: application/json" \
+     -d @request-get-online-features.json | jq
+--8<-- [end:get-online-features]

@@ -4,9 +4,12 @@ metadata:
   name: "fraud-detection-http"
 spec:
   predictor:
+    minReplicas: 0
+    scaleTarget: 1
+    scaleMetric: qps
     model:
       modelFormat:
         name: mlflow
       protocolVersion: v2
-      storageUri: s3://mlflow/1/b1d6cefb8b9c434895e7627fe7529e4e/artifacts/model
+      storageUri: s3://miflow/2/5ccd7dcabc1f49c1bc45f1f94d945dd6/artifacts/model
     serviceAccountName: sa

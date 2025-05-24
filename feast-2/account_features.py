@@ -1,9 +1,12 @@
+# --8<-- [start:packages]
 from datetime import timedelta
 
 from feast import (BigQuerySource, Entity, FeatureService, FeatureView,
                    ValueType, Field)
 from feast.types import String, Int64, Bool
+# --8<-- [end:packages]
 
+# --8<-- [start:data-sources]
 # Data Sources
 # https://rtd.feast.dev/en/latest/index.html#feast.infra.offline_stores.bigquery_source.BigQuerySource
 ds_acct_fraud_7d = BigQuerySource(
@@ -20,7 +23,9 @@ ds_acct_profiles = BigQuerySource(
     table=f"mlops-437709.dbt_kclai.feat_acct_profiles",
     timestamp_field="feature_timestamp"
 )
+# --8<-- [end:data-sources]
 
+# --8<-- [start:entity]
 # Entity
 account_entity = Entity(
     name="Account",
@@ -28,7 +33,9 @@ account_entity = Entity(
     value_type=ValueType.STRING,
     join_keys=["entity_id"]
 )
+# --8<-- [end:entity]
 
+# --8<-- [start:feature-views]
 # Feature Views
 fv_acct_fraud_7d = FeatureView(
     name="acct_fraud_7d",
@@ -62,9 +69,9 @@ fv_acct_profiles = FeatureView(
     ttl=timedelta(weeks=52),
     source=ds_acct_profiles
 )
+# --8<-- [end:feature-views]
 
-
-
+# --8<-- [start:feature-services]
 # Feature Services
 # Versioning features that power ML models:
 # https://docs.feast.dev/master/how-to-guides/running-feast-in-production#id-3.2-versioning-features-that-power-ml-models
@@ -76,3 +83,4 @@ fs_fraud_detection_v1 = FeatureService(
         fv_acct_profiles
     ]
 )
+# --8<-- [end:feature-services]
