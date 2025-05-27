@@ -10,7 +10,7 @@ from kserve.model import PredictorConfig, PredictorProtocol
 import kserve
 from kserve import InferInput, InferRequest, InferResponse
 
-
+# --8<-- [start:class]
 class FeastTransformer(kserve.Model):
     """A class object for the data handling activities of driver ranking
     Task and returns a KServe compatible response.
@@ -50,11 +50,13 @@ class FeastTransformer(kserve.Model):
         self.feast_url = feast_url
         self.feast_entity_id = feast_entity_id
         self.feature_service = feature_service
+        # --8<-- [end:class]
         logger.info("Feast Online Feature Server URL = %s", feast_url)
         logger.info("Entity ID = %s", feast_entity_id)
         logger.info("Feature Service = %s", feature_service)
         logger.info("Model Name = %s", model_name)
-
+    
+    # --8<-- [start:extract_entity_ids]
     def extract_entity_ids(self, payload: Union[Dict, InferRequest]) -> Dict:
         """Extract entity IDs from the input payload.
 
@@ -88,7 +90,9 @@ class FeastTransformer(kserve.Model):
             ]
 
         return {self.feast_entity_id: entity_ids}
+    # --8<-- [end:extract_entity_ids]
 
+    # --8<-- [start:create_inference_request]
     def create_inference_request(self, feast_results: Dict) -> Union[Dict, InferRequest]:
         """Create the inference request for all entities and return it as a dict.
 
@@ -146,7 +150,9 @@ class FeastTransformer(kserve.Model):
             )
  
         return output
+    # --8<-- [end:create_inference_request]
 
+    # --8<-- [start:preprocess]
     def preprocess(
         self, payload: Union[Dict, InferRequest], headers: Dict[str, str] = None
     ) -> Union[Dict, InferRequest]:
@@ -191,3 +197,4 @@ class FeastTransformer(kserve.Model):
         logger.info(f"Type of output: {type(output)}")
         logger.info(f"Output of preprocess: {output}")
         return output
+    # --8<-- [end:preprocess]

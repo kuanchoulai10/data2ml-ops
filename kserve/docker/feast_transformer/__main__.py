@@ -4,6 +4,7 @@ from kserve import logging
 
 from .feast_transformer import FeastTransformer
 
+# --8<-- [start:parser]
 parser = argparse.ArgumentParser(parents=[kserve.model_server.parser])
 parser.add_argument(
     "--feast_url",
@@ -23,9 +24,11 @@ parser.add_argument(
     help="Name of the feature service to retrieve from the feature store.",
     required=True,
 )
+# --8<-- [end:parser]
 
 args, _ = parser.parse_known_args()
 
+# --8<-- [start:main]
 if __name__ == "__main__":
     if args.configure_logging:
         logging.configure_logging(args.log_config_file)
@@ -39,3 +42,4 @@ if __name__ == "__main__":
     )
     server = kserve.ModelServer()
     server.start(models=[transformer])
+# --8<-- [end:main]
