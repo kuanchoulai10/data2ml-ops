@@ -1,0 +1,36 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "fraud-detection-with-transformer-rest"
+spec:
+  transformer:
+    containers:
+      - image: "feast-transformer:v0.1.0"
+        name: feast-container
+        command:
+          - "python"
+          - "-m"
+          - "feast_transformer"
+        args:
+          - --feast_url
+          - "http://online-feature-server.feast.svc.cluster.local:8080"
+          - --feast_entity_id
+          - "entity_id"
+          - --feature_service
+          - "fraud_detection_v1"
+          - --predictor_protocol
+          - "grpc-v2"
+  predictor:
+    minReplicas: 0
+    scaleTarget: 1
+    scaleMetric: qps
+    model:
+      modelFormat:
+        name: mlflow
+      protocolVersion: v2
+      storageUri: s3://mlflow/2/5ccd7dcabc1f49c1bc45f1f94d945dd6/artifacts/model
+      ports:
+        - containerPort: 9000
+          name: h2c
+          protocol: TCP
+    serviceAccountName: sa
