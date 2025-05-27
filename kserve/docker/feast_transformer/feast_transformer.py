@@ -6,7 +6,6 @@ import numpy as np
 import requests
 from kserve.logging import logger
 from kserve.model import PredictorConfig, PredictorProtocol
-from kserve.protocol.grpc import grpc_predict_v2_pb2 as pb
 
 import kserve
 from kserve import InferInput, InferRequest, InferResponse
@@ -51,15 +50,10 @@ class FeastTransformer(kserve.Model):
         self.feast_url = feast_url
         self.feast_entity_id = feast_entity_id
         self.feature_service = feature_service
-        # self.predictor_host = predictor_host
-        # self.predictor_protocol = predictor_protocol
         logger.info("Feast Online Feature Server URL = %s", feast_url)
         logger.info("Entity ID = %s", feast_entity_id)
         logger.info("Feature Service = %s", feature_service)
         logger.info("Model Name = %s", model_name)
-        self.ready = True
-        # logger.info("Predictor Host = %s", predictor_host)
-        # logger.info("Predictor Protocol = %s", predictor_protocol)
 
     def extract_entity_ids(self, payload: Union[Dict, InferRequest]) -> Dict:
         """Extract entity IDs from the input payload.

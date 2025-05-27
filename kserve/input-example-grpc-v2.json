@@ -1,0 +1,45 @@
+{
+  "model_name": "fraud-detection-grpc",
+  "inputs": [
+    {
+      "name": "has_fraud_7d",
+      "shape": [2],
+      "datatype": "BOOL",
+      "contents": {
+        "bool_contents": [false, false]
+      }
+    },
+    {
+      "name": "num_transactions_7d",
+      "shape": [2],
+      "datatype": "INT64",
+      "contents": {
+        "int64_contents": [7, 6]
+      }
+    },
+    {
+      "name": "account_age_days",
+      "shape": [2],
+      "datatype": "INT64",
+      "contents": {
+        "int64_contents": [655, 236]
+      }
+    },
+    {
+      "name": "credit_score",
+      "shape": [2],
+      "datatype": "INT64",
+      "contents": {
+        "int64_contents": [680, 737]
+      }
+    },
+    {
+      "name": "has_2fa_installed",
+      "shape": [2],
+      "datatype": "BOOL",
+      "contents": {
+        "bool_contents": [true, true]
+      }
+    }
+  ]
+}

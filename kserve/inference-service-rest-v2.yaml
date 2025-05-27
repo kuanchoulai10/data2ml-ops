@@ -1,7 +1,7 @@
 apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
-  name: "fraud-detection-http"
+  name: "fraud-detection-rest"
 spec:
   predictor:
     minReplicas: 0

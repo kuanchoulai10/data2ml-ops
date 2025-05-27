@@ -1,7 +1,7 @@
 apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
 metadata:
-  name: "fraud-detection-with-transformer-rest"
+  name: "fraud-detection-with-transformer-grpc"
 spec:
   transformer:
     containers:
