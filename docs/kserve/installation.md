@@ -695,11 +695,11 @@ kubectl get all -n kserve
 ??? info "Install and Uninstall KServe Scripts"
 
     ```sh title="install.sh"
-    --8<-- "./kserve/install.sh"
+    --8<-- "./data2ml-ops/kserve/install.sh"
     ```
 
     ```sh title="uninstall.sh"
-    --8<-- "./kserve/uninstall.sh"
+    --8<-- "./data2ml-ops/kserve/uninstall.sh"
     ```
 
 [^1]: [Serverless Installation Guide](https://kserve.github.io/website/latest/admin/serverless/serverless/)

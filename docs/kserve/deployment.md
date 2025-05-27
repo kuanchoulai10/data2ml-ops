@@ -25,7 +25,7 @@ Start by creating a `Secret` that holds your S3 credentials. This secret should 
 
 
 ```yaml title="secret.yaml" linenums="1" hl_lines="4"
---8<-- "./kserve/secret.yaml"
+--8<-- "./data2ml-ops/kserve/secret.yaml"
 ```
 
 These values should match what you specified when deploying MinIO on Kubernetes. For more details, refer to the configuration section below or revisit [this article](../minio/deployment.md).
@@ -33,13 +33,13 @@ These values should match what you specified when deploying MinIO on Kubernetes.
 ??? info 
 
     ```yaml title="minio.yaml"
-    --8<-- "./minio/minio.yaml"
+    --8<-- "./data2ml-ops/minio/minio.yaml"
     ```
 
 Next, create a `ServiceAccount` that references the secret. This will allow KServe to inject the credentials when pulling models.
 
 ```yaml title="sa.yaml" linenums="1" hl_lines="4 6"
---8<-- "./kserve/sa.yaml"
+--8<-- "./data2ml-ops/kserve/sa.yaml"
 ```
 
 Finally, define an `InferenceService` that uses the `ServiceAccount` and points to the model artifact stored in MinIO. In this example, we are deploying a model saved in MLflow format using the v2 inference protocol.
@@ -47,13 +47,13 @@ Finally, define an `InferenceService` that uses the `ServiceAccount` and points 
 === "REST"
 
     ```yaml title="inference-service-rest-v2.yaml" linenums="1" hl_lines="15"
-    --8<-- "./kserve/inference-service-rest-v2.yaml"
+    --8<-- "./data2ml-ops/kserve/inference-service-rest-v2.yaml"
     ```
 
 === "gRPC"
 
     ```yaml title="inference-service-grpc-v2.yaml" linenums="1" hl_lines="19"
-    --8<-- "./kserve/inference-service-grpc-v2.yaml"
+    --8<-- "./data2ml-ops/kserve/inference-service-grpc-v2.yaml"
     ```
 
 
@@ -66,7 +66,7 @@ This example shows how to deploy your trained MLflow model on KServe using both 
 === "REST"
 
     ```yaml title="inference-service-rest-v2.yaml"
-    --8<-- "./kserve/inference-service-rest-v2.yaml"
+    --8<-- "./data2ml-ops/kserve/inference-service-rest-v2.yaml"
     ```
     
     Apply the configuration using `kubectl`:
@@ -84,7 +84,7 @@ This example shows how to deploy your trained MLflow model on KServe using both 
 === "gRPC"
 
     ```yaml title="inference-service-grpc-v2.yaml"
-    --8<-- "./kserve/inference-service-grpc-v2.yaml"
+    --8<-- "./data2ml-ops/kserve/inference-service-grpc-v2.yaml"
     ```
 
     Apply the configuration using `kubectl`:
@@ -134,11 +134,11 @@ This step retrieves the external IP address of the Istio Ingress Gateway and sto
     ??? note "input-example-rest-v2.json"
 
         ```bash title="input-example-rest-v2.json"
-        --8<-- "./kserve/input-example-rest-v2.json"
+        --8<-- "./data2ml-ops/kserve/input-example-rest-v2.json"
         ```
 
     ```bash title="test-commands.txt"
-    --8<-- "./kserve/test-commands.txt:rest"
+    --8<-- "./data2ml-ops/kserve/test-commands.txt:rest"
     ```
 
     !!! success "Expected Output"
@@ -203,11 +203,11 @@ This step retrieves the external IP address of the Istio Ingress Gateway and sto
     ??? note "input-example-grpc-v2.json"
 
         ```bash title="input-example-grpc-v2.json"
-        --8<-- "./kserve/input-example-grpc-v2.json"
+        --8<-- "./data2ml-ops/kserve/input-example-grpc-v2.json"
         ```
 
     ```bash title="test-commands.txt"
-    --8<-- "./kserve/test-commands.txt:grpc"
+    --8<-- "./data2ml-ops/kserve/test-commands.txt:grpc"
     ```
 
     !!! success "Expected Output"

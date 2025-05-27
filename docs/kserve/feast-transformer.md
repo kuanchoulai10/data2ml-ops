@@ -9,7 +9,7 @@ This guide demonstrates how to integrate Feast with KServe, enabling feature ret
 To create a custom transformer that retrieves features from Feast, you will extend the `KServe.Model` class and implement the `preprocess` method. This method will dynamically fetch features based on the input data and append them to the inference request.
 
 ```py title="feast_transformer.py"
---8<-- "./kserve/docker/feast_transformer/feast_transformer.py:class"
+--8<-- "./data2ml-ops/kserve/docker/feast_transformer/feast_transformer.py:class"
 ```
 
 ### Logic of the `preprocess()` Method
@@ -24,15 +24,15 @@ Since the transformer is designed to handle multiple protocols, the `preprocess(
 
 
 ```py title="feast_transformer.py" hl_lines="1 18 20-30 41" linenums="1"
---8<-- "./kserve/docker/feast_transformer/feast_transformer.py:preprocess"
+--8<-- "./data2ml-ops/kserve/docker/feast_transformer/feast_transformer.py:preprocess"
 ```
 
 ```py title="feast_transformer.py" hl_lines="1 18 27" linenums="1"
---8<-- "./kserve/docker/feast_transformer/feast_transformer.py:extract_entity_ids"
+--8<-- "./data2ml-ops/kserve/docker/feast_transformer/feast_transformer.py:extract_entity_ids"
 ```
 
 ```py title="feast_transformer.py" hl_lines="1 16 26" linenums="1"
---8<-- "./kserve/docker/feast_transformer/feast_transformer.py:create_inference_request"
+--8<-- "./data2ml-ops/kserve/docker/feast_transformer/feast_transformer.py:create_inference_request"
 ```
 
 ## Package the Custom Transformer
@@ -51,7 +51,7 @@ First, create a directory structure for your custom transformer:
 Then, extend the `__main__.py` file to include custom arguments that allow us to easily inject Feast-related information into the KServe transformer. This makes it convenient to specify details like the Feast URL, entity ID, and feature service directly in the inference service YAML file. By doing so, we ensure that the transformer remains flexible and configurable, adapting seamlessly to different deployment environments.
 
 ```py title="__main__.py" 
---8<-- "./kserve/docker/feast_transformer/__main__.py:parser"
+--8<-- "./data2ml-ops/kserve/docker/feast_transformer/__main__.py:parser"
 ```
 
 When you run the transformer, you can specify the Feast URL, entity ID, and feature service as command-line arguments. This allows the transformer to dynamically connect to the Feast feature store and retrieve the necessary features for inference.
@@ -66,7 +66,7 @@ python -m feast_transformer \
 After the arguments are parsed, the `main()` function initializes the KServe model with the provided Feast configuration and starts the model server.
 
 ```py title="__main__.py" hl_lines="13" linenums="1"
---8<-- "./kserve/docker/feast_transformer/__main__.py:main"
+--8<-- "./data2ml-ops/kserve/docker/feast_transformer/__main__.py:main"
 ```
 
 Here's a sequence diagram when we start the KServe Model Server:
@@ -127,7 +127,7 @@ First, create a `pyproject.toml` file to define the dependencies for your custom
 
 
 ```toml title="pyproject.toml" 
---8<-- "./kserve/docker/pyproject.toml"
+--8<-- "./data2ml-ops/kserve/docker/pyproject.toml"
 ```
 
 Next, use the `uv` package manager to install the dependencies and generate a lock file. The lock file ensures that the same versions of the dependencies are used across different environments, providing consistency and reliability.
@@ -139,7 +139,7 @@ uv lock
 Then, create a `Dockerfile` to build the custom transformer image. This Dockerfile uses a multi-stage build process to ensure that the final image is lightweight and contains only the necessary components.
 
 ```dockerfile title="Dockerfile"
---8<-- "./kserve/docker/Dockerfile"
+--8<-- "./data2ml-ops/kserve/docker/Dockerfile"
 ```
 
 The first stage (`builder`) uses the `uv` package manager to install all dependencies defined in the `pyproject.toml` file. It also caches dependencies to speed up subsequent builds and compiles Python bytecode for better performance. Additionally, it installs build tools like `gcc` and `python3-dev` to handle dependencies requiring compilation, such as `psutil`.

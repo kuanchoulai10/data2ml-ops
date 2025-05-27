@@ -18,15 +18,15 @@ minikube start --cpus=4 --memory=7000 --driver=docker
 go to `feast/` folder. 就會看到以下檔案
 
 ```Dockerfile title="Dockerfile"
---8<-- "./feast-2/Dockerfile"
+--8<-- "./data2ml-ops/feast-2/Dockerfile"
 ```
 
 ```yaml title="feature_store.yaml" linenums="1" hl_lines="2-4 11-15"
---8<-- "./feast-2/feature_store.yaml"
+--8<-- "./data2ml-ops/feast-2/feature_store.yaml"
 ```
 
 ```sh title="entrypoint.sh"
---8<-- "./feast-2/entrypoint.sh"
+--8<-- "./data2ml-ops/feast-2/entrypoint.sh"
 ```
 
 
@@ -115,13 +115,13 @@ docker@minikube:~$ docker images
 ### Registry
 
 ```yaml title="registry.yaml"
---8<-- "./feast-2/k8s/registry.yaml"
+--8<-- "./data2ml-ops/feast-2/k8s/registry.yaml"
 ```
 
 ### Online Store
 
 ```yaml title="online-store.yaml"
---8<-- "./feast-2/k8s/online-store.yaml"
+--8<-- "./data2ml-ops/feast-2/k8s/online-store.yaml"
 ```
 
 
@@ -267,14 +267,14 @@ data:
 ### Online Feature Server
 
 ```yaml title="online-feature-server.yaml"
---8<-- "./feast-2/k8s/online-feature-server.yaml"
+--8<-- "./data2ml-ops/feast-2/k8s/online-feature-server.yaml"
 ```
 
 
 ## Deploy Your Feast Architecture
 
 ```sh title="install.sh"
---8<-- "./feast-2/k8s/install.sh"
+--8<-- "./data2ml-ops/feast-2/k8s/install.sh"
 ```
 
 ```bash
@@ -343,13 +343,13 @@ minikube service online-feature-server -n feast
 Materialize features within a specified time range
 
 ```bash
---8<-- "./feast-2/test-commands.txt:materialize"
+--8<-- "./data2ml-ops/feast-2/test-commands.txt:materialize"
 ```
 
 where `request-materialize.json` is
 
 ```json
---8<-- "./feast-2/request-materialize.json"
+--8<-- "./data2ml-ops/feast-2/request-materialize.json"
 ```
 
 by running `kubectl logs pod`, you can see the progress of materialization:
@@ -373,13 +373,13 @@ by running `kubectl logs pod`, you can see the progress of materialization:
 Incrementally materialize features up to a specified timestamp
 
 ```bash
---8<-- "./feast-2/test-commands.txt:materialize-incremental"
+--8<-- "./data2ml-ops/feast-2/test-commands.txt:materialize-incremental"
 ```
 
 where `request-materialize-incremental.json` is
 
 ```json
---8<-- "./feast-2/request-materialize-incremental.json"
+--8<-- "./data2ml-ops/feast-2/request-materialize-incremental.json"
 ```
 
 by running `kubectl logs pod`, you can see the progress of materialization:
@@ -403,13 +403,13 @@ by running `kubectl logs pod`, you can see the progress of materialization:
 Get online features from the feature store:
 
 ```bash
---8<-- "./feast-2/test-commands.txt:get-online-features"
+--8<-- "./data2ml-ops/feast-2/test-commands.txt:get-online-features"
 ```
 
 where `request-get-online-features.json` is 
 
 ```json
---8<-- "./feast-2/request-get-online-features.json"
+--8<-- "./data2ml-ops/feast-2/request-get-online-features.json"
 ```
 
 
