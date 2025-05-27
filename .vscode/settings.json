@@ -1,0 +1,20 @@
+{
+    "files.associations": {
+        "*.sql": "jinja-sql",
+        "*.yml": "jinja-yaml"
+    },
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+    ],
+    "github.copilot.chat.commitMessageGeneration.instructions": [
+        {
+            "file": ".copilot-commit-message-instructions.md"
+        },
+        {
+            "text": "Use conventional commit message format."
+        }
+    ]
+}
