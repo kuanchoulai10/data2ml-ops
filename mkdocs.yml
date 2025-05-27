@@ -4,23 +4,23 @@ nav:
   - index.md
   - prerequisites.md
   - dbt:
-    - dbt/what-why-when.md
-    - dbt/how-it-works.md
-    - dbt/in-the-bigger-picture.md
+    # - dbt/what-why-when.md
+    # - dbt/how-it-works.md
+    # - dbt/in-the-bigger-picture.md
     - dbt/modeling-data.md
   - Feast:
-    - feast/what-why-when.md
-    - feast/how-it-works.md
-    - feast/in-the-bigger-picture.md
+    # - feast/what-why-when.md
+    # - feast/how-it-works.md
+    # - feast/in-the-bigger-picture.md
     - feast/modeling-features.md
     - feast/deployment.md
   - MinIO:
-    - minio/what-why-when.md
+    # - minio/what-why-when.md
     - minio/deployment.md
   - MLflow:
-    - mlflow/what-why-when.md
-    - mlflow/how-it-works.md
-    - mlflow/in-the-bigger-picture.md
+    # - mlflow/what-why-when.md
+    # - mlflow/how-it-works.md
+    # - mlflow/in-the-bigger-picture.md
     - mlflow/deployment.md
     - mlflow/hpo.ipynb
   - Ray:

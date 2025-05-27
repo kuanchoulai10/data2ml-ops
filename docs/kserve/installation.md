@@ -5,7 +5,7 @@ To install KServe in serverless mode, you need to first install three components
 KServe provides a recommended version matrix for Knative Serving and Istio based on your Kubernetes version.
 
 <figure markdown="span">
-    ![Recommended Version Matrix](./static/version-matric.png){width="500"}
+    ![Recommended Version Matrix](./static/version-matrix.png){width="500"}
     *Recommended Version Matrix*[^1]
 </figure>
 
@@ -14,7 +14,7 @@ Since my Kubernetes version is 1.30, I will install the following versions:
 - Knative Serving v1.15.0
 - Istio v1.22.8
 - Cert Manager v1.17.2
-- KServe v0.14.1
+- KServe v0.15.1
 
 ## Install Knative Serving[^2]
 <!-- TODO -->
@@ -618,14 +618,14 @@ Install KServe CRDs
 
 ```bash
 helm install kserve-crd oci://ghcr.io/kserve/charts/{==kserve-crd==} \
-  --version {==v0.14.1==} \
+  --version {==v0.15.1==} \
   -n kserve
 ```
 
 !!! note "Expected Output"
 
     ```
-    Pulled: {==ghcr.io/kserve/charts/kserve-crd:v0.14.1==}
+    Pulled: {==ghcr.io/kserve/charts/kserve-crd:v0.15.1==}
     Digest: sha256:b5f4f22fae8fa747ef839e1b228e74e97a78416235eb5f35da49110d25b3d1e7
     NAME: {==kserve-crd==}
     LAST DEPLOYED: Thu May 22 22:02:37 2025
@@ -639,14 +639,14 @@ Deploy KServe
 
 ```bash
 helm install kserve oci://ghcr.io/kserve/charts/{==kserve==} \
-  --version {==v0.14.1==} \
+  --version {==v0.15.1==} \
   -n kserve
 ```
 
 !!! note "Expected Output"
 
     ```
-    Pulled: {==ghcr.io/kserve/charts/kserve:v0.14.1==}
+    Pulled: {==ghcr.io/kserve/charts/kserve:v0.15.1==}
     Digest: sha256:e65039d9e91b16d429f5fb56528e15a4695ff106a41eeae07f1f697abe974bd5
     NAME: {==kserve==}
     LAST DEPLOYED: Thu May 22 22:02:52 2025
@@ -690,6 +690,17 @@ kubectl get all -n kserve
     replicaset.apps/modelmesh-serving-triton-2.x-66756bc646       0         0         0       2m4s
     ```
 
+## Summary
+
+??? info "Install and Uninstall KServe Scripts"
+
+    ```sh title="install.sh"
+    --8<-- "./kserve/install.sh"
+    ```
+
+    ```sh title="uninstall.sh"
+    --8<-- "./kserve/uninstall.sh"
+    ```
 
 [^1]: [Serverless Installation Guide](https://kserve.github.io/website/latest/admin/serverless/serverless/)
 [^2]: [Installing Knative Serving using YAML files](https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml/)

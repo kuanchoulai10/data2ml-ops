@@ -29,11 +29,11 @@ kubectl create ns kserve --dry-run=client -o yaml | kubectl apply -f -
 
 # Install KServe CRDs and components
 helm install kserve-crd oci://ghcr.io/kserve/charts/kserve-crd \
-  --version v0.14.1 \
+  --version v0.15.1 \
   -n kserve
 
 helm install kserve oci://ghcr.io/kserve/charts/kserve \
-  --version v0.14.1 \
+  --version v0.15.1 \
   -n kserve
 
 echo "✅ Installation complete. You may want to run:"

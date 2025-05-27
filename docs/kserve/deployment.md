@@ -46,14 +46,14 @@ Finally, define an `InferenceService` that uses the `ServiceAccount` and points 
 
 === "REST"
 
-    ```yaml title="inference-service-rest.yaml" linenums="1" hl_lines="12"
-    --8<-- "./kserve/inference-service-rest.yaml"
+    ```yaml title="inference-service-rest-v2.yaml" linenums="1" hl_lines="15"
+    --8<-- "./kserve/inference-service-rest-v2.yaml"
     ```
 
 === "gRPC"
 
-    ```yaml title="inference-service-grpc.yaml" linenums="1" hl_lines="16"
-    --8<-- "./kserve/inference-service-grpc.yaml"
+    ```yaml title="inference-service-grpc-v2.yaml" linenums="1" hl_lines="19"
+    --8<-- "./kserve/inference-service-grpc-v2.yaml"
     ```
 
 
@@ -65,14 +65,14 @@ This example shows how to deploy your trained MLflow model on KServe using both 
 
 === "REST"
 
-    ```yaml title="inference-service-rest.yaml"
-    --8<-- "./kserve/inference-service-rest.yaml"
+    ```yaml title="inference-service-rest-v2.yaml"
+    --8<-- "./kserve/inference-service-rest-v2.yaml"
     ```
     
     Apply the configuration using `kubectl`:
 
     ```bash
-    kubectl apply -f inference-service-rest.yaml
+    kubectl apply -f inference-service-rest-v2.yaml
     ```
 
     Once deployed, KServe will expose a REST endpoint where you can send inference requests. You can verify the service status using:
@@ -83,14 +83,14 @@ This example shows how to deploy your trained MLflow model on KServe using both 
 
 === "gRPC"
 
-    ```yaml title="inference-service-grpc.yaml"
-    --8<-- "./kserve/inference-service-grpc.yaml"
+    ```yaml title="inference-service-grpc-v2.yaml"
+    --8<-- "./kserve/inference-service-grpc-v2.yaml"
     ```
 
     Apply the configuration using `kubectl`:
 
     ```bash
-    kubectl apply -f inference-service-grpc.yaml
+    kubectl apply -f inference-service-grpc-v2.yaml
     ```
 
     Once deployed, KServe will expose a gRPC endpoint where you can send inference requests. You can verify the service status using: 
@@ -127,14 +127,14 @@ This step retrieves the external IP address of the Istio Ingress Gateway and sto
     Set the required environment variables for the HTTP inference request:
 
     ```bash
-    export INPUT_PATH=input-example-http.json
-    export SERVICE_HOSTNAME=$(kubectl get inferenceservice fraud-detection-http -o jsonpath='{.status.url}' | cut -d "/" -f 3)
+    export INPUT_PATH=input-example-rest-v2.json
+    export SERVICE_HOSTNAME=$(kubectl get inferenceservice fraud-detection-rest -o jsonpath='{.status.url}' | cut -d "/" -f 3)
     ```
 
-    ??? note "input-example-rest.json"
+    ??? note "input-example-rest-v2.json"
 
-        ```bash title="input-example-rest.json"
-        --8<-- "./kserve/input-example-rest.json"
+        ```bash title="input-example-rest-v2.json"
+        --8<-- "./kserve/input-example-rest-v2.json"
         ```
 
     ```bash title="test-commands.txt"
@@ -194,16 +194,16 @@ This step retrieves the external IP address of the Istio Ingress Gateway and sto
 
     ```bash
     export PROTO_FILE=open_inference_grpc.proto
-    export INPUT_PATH=input-example-grpc.json
+    export INPUT_PATH=input-example-grpc-v2.json
     export SERVICE_HOSTNAME=$(kubectl get inferenceservice fraud-detection-grpc -o jsonpath='{.status.url}' | cut -d "/" -f 3)
     ```
 
     These variables specify the protobuf schema for gRPC, the input payload to send, and the target hostname for routing the request through the ingress gateway.
 
-    ??? note "input-example-grpc.json"
+    ??? note "input-example-grpc-v2.json"
 
-        ```bash title="input-example-grpc.json"
-        --8<-- "./kserve/input-example-grpc.json"
+        ```bash title="input-example-grpc-v2.json"
+        --8<-- "./kserve/input-example-grpc-v2.json"
         ```
 
     ```bash title="test-commands.txt"
@@ -213,7 +213,7 @@ This step retrieves the external IP address of the Istio Ingress Gateway and sto
     !!! success "Expected Output"
 
         ```
-        Hello World
+        TODO: Add expected output for gRPC inference request
         ```
 
 [^1]: [Deploy InferenceService with a saved model on S3 | KServe](https://kserve.github.io/website/latest/modelserving/storage/s3/s3/)
