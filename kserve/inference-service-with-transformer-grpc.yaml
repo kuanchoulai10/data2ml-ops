@@ -21,9 +21,6 @@ spec:
           - --predictor_protocol
           - "grpc-v2"
   predictor:
-    minReplicas: 0
-    scaleTarget: 1
-    scaleMetric: qps
     model:
       modelFormat:
         name: mlflow

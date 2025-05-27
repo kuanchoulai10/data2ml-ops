@@ -1,0 +1,11 @@
+{
+  "model_name": "model",
+  "inputs": [
+    {
+      "name": "entity_id",
+      "shape": [2],
+      "datatype": "BYTES",
+      "data": ["djV6bHcw", "MDAwcTk1"]
+    }
+  ]
+}

@@ -1,14 +1,15 @@
+import base64
 import json
 from typing import Dict, List, Union
 
-import kserve
 import numpy as np
 import requests
-
-from kserve import InferInput, InferRequest, InferResponse
-from kserve.model import PredictorConfig, PredictorProtocol
 from kserve.logging import logger
+from kserve.model import PredictorConfig, PredictorProtocol
 from kserve.protocol.grpc import grpc_predict_v2_pb2 as pb
+
+import kserve
+from kserve import InferInput, InferRequest, InferResponse
 
 
 class FeastTransformer(kserve.Model):
@@ -61,91 +62,96 @@ class FeastTransformer(kserve.Model):
         # logger.info("Predictor Protocol = %s", predictor_protocol)
 
     def extract_entity_ids(self, payload: Union[Dict, InferRequest]) -> Dict:
-        """Extract entity IDs and return them as a dict.
+        """Extract entity IDs from the input payload.
+
+        This method processes the input payload to extract entity IDs based on the 
+        protocol (REST v1, REST v2, or gRPC v2) and returns them in a dictionary format.
 
         Args:
-            payload (Dict|InferRequest): Input payload containing entity IDs.
+            payload (Dict|InferRequest): The input payload containing entity IDs.
 
         Returns:
-            Dict: A dictionary containing the extracted entity IDs.
+            entites (Dict): A dictionary with the extracted entity IDs. For example:
+            {
+            "entity_id": ["v5zlw0", "000q95"]
+            }
         """
-        pass
-        # TODO: Handle the payload based on the protocol
-        # the protocol here means the protocol of the transformer
-        # # REST v2 and gRPC v2 protocols use InferRequest
-        # if isinstance(payload, InferRequest):
-        #     pass
-        #     inputs = {}
-        #     for infer_input in payload.inputs:
-        #         inputs[infer_input.name] = infer_input.data
-        # # REST v1 protocol uses a dict with "instances" key
-        # else:
-        #     pass
-        #     payload = {
-        #         "instances": [
-        #             {"entity_id": "v5zlw0"},
-        #             ...
-        #         ]
-        #     }
-        #     entities = {}
-        #     entity_ids = []
-        #     for instance in payload["instances"]:
-        #         entity_ids.append(instance[self.feast_entity_id])
-        #     entities[self.feast_entity_id] = entity_ids
-        #     entities = {
-        #         "entity_id": ["v5zlw0", "dllwj31", ...]
-        #     }
-        #     return entities
+        # The protocol here refers to the protocol used by the transformer deployment
+        # v2
+        if isinstance(payload, InferRequest):
+            infer_input = payload.inputs[0]
+            entity_ids = [
+                # Decode each element based on the protocol: gRPC uses raw bytes, REST uses base64-encoded strings
+                d.decode(
+                    'utf-8') if payload.from_grpc else base64.b64decode(d).decode('utf-8')
+                for d in infer_input.data
+            ]
+        # REST v1, type(payload) = Dict
+        else:
+            entity_ids = [
+                instance[self.feast_entity_id]
+                for instance in payload["instances"]
+            ]
 
-    def build_predict_request(self, feast_results: Dict) -> Dict:
-        """Build the predict request for all entities and return it as a dict.
+        return {self.feast_entity_id: entity_ids}
+
+    def create_inference_request(self, feast_results: Dict) -> Union[Dict, InferRequest]:
+        """Create the inference request for all entities and return it as a dict.
 
         Args:
             feast_results (Dict): entity feast_results extracted from the feature store
 
         Returns:
-            Dict: Returns the entity ids with feast_results
-
+            output (Dict|InferRequest): Returns the entity ids with feast_results
         """
         feature_names = feast_results["metadata"]["feature_names"]
         results = feast_results["results"]
         num_datapoints = len(results[0]["values"])
-        num_features = len(feature_names) - 1 # Exclude the entity ID feature
+        num_features = len(feature_names)
 
-        instances = []
-        for i in range(num_datapoints):
-            instance = []
-            for j, feature_name in enumerate(feature_names):
-                if feature_name != self.feast_entity_id:
-                    feature = results[j]["values"][i]
-                    instance.append(feature)
-            instances.append(instance)
         # for v1 predictor protocol, we can directly pass the dict
         if self.protocol == PredictorProtocol.REST_V1.value:
-            logger.info(f"I'M IN REST V1 BLOCK! build_predict_request")
-            output = {"instances": instances}
-            return output
+            output = {
+                "instances": [
+                    {
+                        feature_names[j]: results[j]['values'][i] for j in range(num_features) if feature_names[j] != "entity_id"
+                    }
+                    for i in range(num_datapoints)
+                ]
+            }
         # for v2 predictor protocol, we need to build an InferRequest
         else:
-            logger.info(f"I'M IN REST V2 BLOCK! build_predict_request")
-            data = np.array(instances, dtype=np.float32).flatten()
-            logger.info(f"Data shape: {data.shape}, Data type: {data.dtype}")
-            infer_inputs = [
-                InferInput(
-                    name="INPUT_0",
-                    datatype="FP32",
-                    shape=[
-                        num_datapoints,
-                        num_features,
-                    ],
-                    data=pb.InferTensorContents(fp32_contents=data),
-                )
-            ]
+            # TODO: find a way to not hardcode the data types
+            type_map = {
+                "has_fraud_7d": "BOOL",
+                "num_transactions_7d": "INT64",
+                "credit_score": "INT64",
+                "account_age_days": "INT64",
+                "has_2fa_installed": "BOOL",
+            }
+            map_datatype = lambda feature_name: type_map.get(feature_name, "BYTES")
+
             output = InferRequest(
                 model_name=self.name,
-                infer_inputs=infer_inputs
+                parameters={
+                    "content-type": "pd"
+                },
+                infer_inputs=[
+                    InferInput(
+                        name=feature_names[j],
+                        datatype=map_datatype(feature_names[j]),
+                        shape=[num_datapoints],
+                        data=[
+                            results[j]["values"][i]
+                            for i in range(num_datapoints)
+                        ]
+                    )
+                    for j in range(num_features)
+                    if feature_names[j] != "entity_id"
+                ]
             )
-            return output
+ 
+        return output
 
     def preprocess(
         self, payload: Union[Dict, InferRequest], headers: Dict[str, str] = None
@@ -157,118 +163,37 @@ class FeastTransformer(kserve.Model):
             headers (Dict): Request headers.
 
         Returns:
-            Dict|InferRequest: Transformed payload to ``predict`` handler or return InferRequest for predictor call.
+            output (Dict|InferRequest): Transformed payload to ``predict`` handler or return InferRequest for predictor call.
         """
         logger.info(f"Headers: {headers}")
         logger.info(f"Type of payload: {type(payload)}")
-        logger.info(f"Payload:")
-        logger.info(f"    Model Name: {payload.model_name}")
-        logger.info(f"    From gGRPC: {payload.from_grpc}")
-        logger.info(f"    Parameters: {payload.parameters}")
+        logger.info(f"Payload: {payload}")
 
-        logger.info(f"Length of payload.inputs : {len(payload.inputs)}")
-        for i, infer_input in enumerate(payload.inputs):
-            logger.info(f"    payload.inputs[{i}].name : {infer_input.name}")
-            logger.info(f"    payload.inputs[{i}].datatype : {infer_input.datatype}")
-            logger.info(f"    payload.inputs[{i}].shape : {infer_input.shape}")
-            logger.info(f"    payload.inputs[{i}].data : {infer_input.data}")
-            logger.info(f"")
-        # TODO: Prepare and send a request for the feast online feature server
-        # feast_response = requests.post(
-        #     self.feast_url,
-        #     data=json.dumps({
-        #         "feature_service": self.feature_service,
-        #         "entities": self.extract_entity_ids(payload)
-        #     }),
-        #     headers={
-        #         "Content-Type": "application/json",
-        #         "Accept": "application/json"
-        #     }
-        # )
-        # feast_results = feast_response.json()
-        feast_results = {
-            "metadata": {
-                "feature_names": [
-                    "entity_id",
-                    "transaction_count_7d",
-                    "credit_score",
-                    "account_age_days",
-                    "user_has_2fa_installed",
-                    "user_has_fraudulent_transactions_7d"
-                ]
-            },
-            "results": [
-                {
-                    "values": [
-                        "v5zlw0", "2jf7aw"
-                    ],
-                    "statuses": [
-                        "PRESENT"
-                    ],
-                    "event_timestamps": [
-                        "1970-01-01T00:00:00Z"
-                    ]
-                },
-                {
-                    "values": [
-                        None, 1
-                    ],
-                    "statuses": [
-                        "PRESENT"
-                    ],
-                    "event_timestamps": [
-                        "1970-01-01T00:00:00Z"
-                    ]
-                },
-                {
-                    "values": [
-                        480, 520
-                    ],
-                    "statuses": [
-                        "PRESENT"
-                    ],
-                    "event_timestamps": [
-                        "2025-04-29T22:00:34Z"
-                    ]
-                },
-                {
-                    "values": [
-                        655, 399
-                    ],
-                    "statuses": [
-                        "PRESENT"
-                    ],
-                    "event_timestamps": [
-                        "2025-04-29T22:00:34Z"
-                    ]
-                },
-                {
-                    "values": [
-                        1, 2
-                    ],
-                    "statuses": [
-                        "PRESENT"
-                    ],
-                    "event_timestamps": [
-                        "2025-04-29T22:00:34Z"
-                    ]
-                },
-                {
-                    "values": [
-                        0.0, 0.0
-                    ],
-                    "statuses": [
-                        "PRESENT"
-                    ],
-                    "event_timestamps": [
-                        "2025-05-05T22:00:50Z"
-                    ]
-                }
-            ]
-        }
+        # Prepare and send a request for the Feast online feature server
+        entites = self.extract_entity_ids(payload)
+        logger.info(f"Extracted entities: {entites}")
+        feast_response = requests.post(
+            f"{self.feast_url}/get-online-features",
+            data=json.dumps({
+                "feature_service": self.feature_service,
+                "entities": entites
+            }),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        )
 
-        # TODO: Prepare the request for the predictor
-        output = self.build_predict_request(feast_results)
-        logger.info(f"Output of preprocess: {output}")
+        # Parse the response from the Feast online feature server
+        if feast_response.status_code != 200:
+            logger.error(
+                f"Error fetching features from Feast: {feast_results}")
+            raise Exception(
+                f"Error fetching features from Feast: {feast_results}")
+        feast_results = feast_response.json()
+        logger.info(f"Feast results: {feast_results}")
+
+        output = self.create_inference_request(feast_results)
         logger.info(f"Type of output: {type(output)}")
+        logger.info(f"Output of preprocess: {output}")
         return output
