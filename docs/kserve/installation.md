@@ -5,7 +5,7 @@ To install KServe in serverless mode, you need to first install three components
 KServe provides a recommended version matrix for Knative Serving and Istio based on your Kubernetes version.
 
 <figure markdown="span">
-    ![Recommended Version Matrix](image.png){width="500"}
+    ![Recommended Version Matrix](./static/version-matric.png){width="500"}
     *Recommended Version Matrix*[^1]
 </figure>
 
