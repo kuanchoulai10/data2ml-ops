@@ -352,10 +352,20 @@ where `request-materialize.json` is
 --8<-- "./feast-2/request-materialize.json"
 ```
 
+by running `kubectl logs pod`, you can see the progress of materialization:
+
 !!! success "Expected Output"
 
-    ```bash
-    TODO
+    ```
+    Materializing 3 feature views from 2024-08-07 00:00:00+00:00 to 2024-08-08 00:00:00+00:00 into the redis online store.
+
+    acct_fraud_7d:
+    0it [00:00, ?it/s]
+    acct_profiles:
+    0it [00:00, ?it/s]
+    acct_num_txns_7d:
+    0it [00:00, ?it/s]
+    10.244.0.1:39638 - "POST /materialize HTTP/1.1" 200
     ```
 
 #### `/materialize-incremental`
@@ -372,10 +382,18 @@ where `request-materialize-incremental.json` is
 --8<-- "./feast-2/request-materialize-incremental.json"
 ```
 
+by running `kubectl logs pod`, you can see the progress of materialization:
+
 !!! success "Expected Output"
 
-    ```bash
-    TODO
+    ```
+    acct_fraud_7d from 2025-05-11 11:56:07+00:00 to 2025-05-27 07:00:00+00:00:
+    100%|█████████████████████████████████████████████████████████| 9944/9944 [00:02<00:00, 3984.00it/s]
+    acct_profiles from 2025-05-11 11:56:07+00:00 to 2025-05-27 07:00:00+00:00:
+    100%|████████████████████████████████████████████████████████| 9944/9944 [00:00<00:00, 14760.64it/s]
+    acct_num_txns_7d from 2025-05-11 11:56:07+00:00 to 2025-05-27 07:00:00+00:00:
+    100%|████████████████████████████████████████████████████████| 9944/9944 [00:00<00:00, 17575.82it/s]
+    10.244.0.1:23621 - "POST /materialize-incremental HTTP/1.1" 200
     ```
 
 ### Get Online Features
@@ -394,85 +412,104 @@ where `request-get-online-features.json` is
 --8<-- "./feast-2/request-get-online-features.json"
 ```
 
+
 !!! success "Expected Output"
 
     ```json
     {
       "metadata": {
         "feature_names": [
-          "user_id",
-          "transaction_count_7d",
-          "credit_score",
+          "entity_id",
+          "has_fraud_7d",
+          "num_transactions_7d",
           "account_age_days",
-          "user_has_2fa_installed",
-          "user_has_fraudulent_transactions_7d"
+          "credit_score",
+          "has_2fa_installed"
         ]
       },
       "results": [
         {
           "values": [
-            "v5zlw0"
+            "v5zlw0",
+            "000q95"
           ],
           "statuses": [
+            "PRESENT",
             "PRESENT"
           ],
           "event_timestamps": [
+            "1970-01-01T00:00:00Z",
             "1970-01-01T00:00:00Z"
           ]
         },
         {
           "values": [
-            null
+            false,
+            false
           ],
           "statuses": [
+            "PRESENT",
             "PRESENT"
           ],
           "event_timestamps": [
-            "1970-01-01T00:00:00Z"
+            "2025-05-26T22:00:37Z",
+            "2025-05-26T22:00:37Z"
           ]
         },
         {
           "values": [
-            480
+            7,
+            6
           ],
           "statuses": [
+            "PRESENT",
             "PRESENT"
           ],
           "event_timestamps": [
-            "2025-04-29T22:00:34Z"
+            "2025-05-26T00:00:00Z",
+            "2025-05-26T00:00:00Z"
           ]
         },
         {
           "values": [
-            655
+            655,
+            236
           ],
           "statuses": [
+            "PRESENT",
             "PRESENT"
           ],
           "event_timestamps": [
-            "2025-04-29T22:00:34Z"
+            "2025-05-19T22:00:27Z",
+            "2025-05-19T22:00:27Z"
           ]
         },
         {
           "values": [
-            1
+            480,
+            737
           ],
           "statuses": [
+            "PRESENT",
             "PRESENT"
           ],
           "event_timestamps": [
-            "2025-04-29T22:00:34Z"
+            "2025-05-19T22:00:27Z",
+            "2025-05-19T22:00:27Z"
           ]
         },
         {
           "values": [
-            0.0
+            true,
+            true
           ],
           "statuses": [
+            "PRESENT",
             "PRESENT"
           ],
           "event_timestamps": [
-            "2025-05-05T22:00:50Z"
+            "2025-05-19T22:00:27Z",
+            "2025-05-19T22:00:27Z"
           ]
         }
       ]
