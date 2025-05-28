@@ -1,21 +1,4 @@
 # Fraud Detection: from DataOps to MLOps
-
-In real-world machine learning projects, managing the workflow from **data transformation to model deployment** is often fragmented, error-prone, and hard to scale.
-
-This project demonstrates how to streamline and automate the entire lifecycle—**from feature engineering to hyperparameter tuning, model tracking, and deployment**—using modern open source tools and **running fully on Kubernetes**.
-
-The use case for this project is **fraud detection**, a high-impact and time-sensitive problem where **real-time inference** is critical. It serves as a practical demo of how to operationalize machine learning pipelines that are **version-controlled**, **reproducible**, and **ready for production**.
-
-It’s designed to be:
-
-- [x] **Reproducible** – All data transformations, features, and models are versioned via dbt, Feast, and MLflow
-- [x] **Scalable** – Built on Kubernetes, enabling distributed training and resource orchestration across services
-- [x] **Modular** – Each stage is decoupled and replaceable, promoting clear responsibility and reuse
-- [x] **Open Source** – Fully built on open source tools like dbt, Feast, Ray, Optuna, MLflow, and KServe
-- [x] **Portable** – Easily adapted to other use cases beyond fraud detection
-
-Whether you're a data engineer, ML practitioner, or platform builder, this project offers a clear, working example of how to **bridge DataOps and MLOps** on a scalable, production-ready foundation.
-
 ## 💡 Highlights
 
 === "Data & Features"
@@ -59,6 +42,23 @@ Whether you're a data engineer, ML practitioner, or platform builder, this proje
         - [x] Enabled **autoscaling** and **scale-to-zero**, optimizing cost for infrequently used models
         - [x] Configured **A/B testing traffic split**, allowing controlled experimentation in production deployments
 
+---
+
+In real-world machine learning projects, managing the workflow from **data transformation to model deployment** is often fragmented, error-prone, and hard to scale.
+
+This project demonstrates how to streamline and automate the entire lifecycle—**from feature engineering to hyperparameter tuning, model tracking, and deployment**—using modern open source tools and **running fully on Kubernetes**.
+
+The use case for this project is **fraud detection**, a high-impact and time-sensitive problem where **real-time inference** is critical. It serves as a practical demo of how to operationalize machine learning pipelines that are **version-controlled**, **reproducible**, and **ready for production**.
+
+It’s designed to be:
+
+- [x] **Reproducible** – All data transformations, features, and models are versioned via dbt, Feast, and MLflow
+- [x] **Scalable** – Built on Kubernetes, enabling distributed training and resource orchestration across services
+- [x] **Modular** – Each stage is decoupled and replaceable, promoting clear responsibility and reuse
+- [x] **Open Source** – Fully built on open source tools like dbt, Feast, Ray, Optuna, MLflow, and KServe
+- [x] **Portable** – Easily adapted to other use cases beyond fraud detection
+
+Whether you're a data engineer, ML practitioner, or platform builder, this project offers a clear, working example of how to **bridge DataOps and MLOps** on a scalable, production-ready foundation.
 
 
 ##  🏗️ Architecture
