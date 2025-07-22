@@ -1,3 +1,13 @@
+---
+tags:
+  - dbt
+  - Feast
+  - Ray
+  - MLflow
+  - KServe
+  - MLOps
+  - Kubernetes
+---
 # Fraud Detection: from DataOps to MLOps
 ## 💡 Highlights
 
