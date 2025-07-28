@@ -41,9 +41,9 @@ nav:
     - kserve/deployment-with-transformer.md
   - Others:
     - others/istio-introduction.md
+    - others/knative-introduction.md
 #    - others/mlserver-introduction.md
 #    - others/optuna-introduction.md
-#    - others/knative-introduction.md
 #    - others/cert-manager-introduction.md
 #    - others/grpc-introduction.md
 #    - others/rest-vs-grpc.md

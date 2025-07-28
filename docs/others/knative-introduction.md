@@ -1,4 +1,9 @@
-# Knative
+---
+tags:
+  - Knative
+---
+
+# What Is Knative?
 
 - Knative is an Open-Source Enterprise-level solution to build Serverless and Event Driven Applications
 - Why serverless containers?
@@ -88,7 +93,7 @@
 - Event consumers can use mesh configuration to receive events of interest using fine-grained filter expressions rather than needing to implement multiple subscriptions and application-level event filtering to select the events of interest.
 - the Broker API offers a discoverable endpoint for event ingress and the Trigger API completes the offering with its event filtering and delivery capabilities
 
-當我第一次接觸到 Knative Eventing 的 “Event Mesh” 概念時，其實有點疑惑。畢竟我以前習慣用 Kafka 這種比較直接的訊息系統，producer 把資料丟到某個 topic，consumer 訂閱那個 topic，大家各司其職、清楚明瞭。久了也就理所當然地接受了這種「大家都要知道訊息去哪、從哪來」的模式。
+當我第一次接觸到 Knative Eventing 的 "Event Mesh" 概念時，其實有點疑惑。畢竟我以前習慣用 Kafka 這種比較直接的訊息系統，producer 把資料丟到某個 topic，consumer 訂閱那個 topic，大家各司其職、清楚明瞭。久了也就理所當然地接受了這種「大家都要知道訊息去哪、從哪來」的模式。
 
 但後來我開始理解 Event Mesh 的時候，腦中有一種「啊，原來還可以這樣設計」的感覺。Event Mesh 不再要求 sender 跟 receiver 都知道訊息通過了哪條通道，也不需要大家硬綁在同一個 Kafka topic 上。相反地，它強調的是「事件本身」，比如這是一個來自某個來源、某種類型、發生在某個時間點的事件——這些屬性才是它能不能被處理的關鍵。系統會根據這些屬性，自動把事件送到真正需要它的地方。這中間的路怎麼走，不再是應用程式的責任，而是 Event Mesh 幫你處理好。
 
