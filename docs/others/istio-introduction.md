@@ -74,6 +74,9 @@ To be honest, Istio itself may not be truly "beginner-friendly," but it makes su
 
 First, regarding **traffic control**, **Kubernetes'** native Ingress can only handle requests entering the cluster from external sources and has no control over internal communication between services. It cannot adjust routing logic based on versions, headers, user identity, or other conditions. **Istio**, through `VirtualService` and `DestinationRule` resources, enables fine-grained specification of traffic distribution. For example, directing specific users to new versions, implementing A/B testing, or canary releases, all while achieving flexible routing without modifying applications.
 
+- `VirtualService`: How you route your traffic **TO** a given destination
+- `DestinationRule`: Configure what happens to traffic **FOR** that destination
+
 Next is the **security** aspect. While **Kubernetes** supports Role-Based Access Control (RBAC) and NetworkPolicy, it cannot ensure that communication between services is encrypted or verify the identities of communicating parties. **Istio** establishes encrypted channels between services through automated mutual TLS (mTLS) mechanisms, combined with authentication and authorization policies, ensuring that only authorized services can communicate with each other, thereby implementing the fundamental principles of zero-trust architecture.
 
 Regarding **observability**, while **Kubernetes** allows viewing Pod logs and some basic metrics, its native functionality is clearly insufficient for microservice tracing, latency analysis, and traffic bottleneck identification. **Istio** deploys proxies at each service edge, enabling automatic collection of detailed telemetry information, including request-level tracing, traffic metrics, and error rates, integrated with tools like Prometheus, Grafana, and Jaeger—achieving comprehensive monitoring with minimal application modifications.
