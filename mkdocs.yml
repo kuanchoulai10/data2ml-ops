@@ -39,11 +39,11 @@ nav:
     - kserve/transformer-advantages.md
     - kserve/feast-transformer.md
     - kserve/deployment-with-transformer.md
-#  - Others:
+  - Others:
+    - others/istio-introduction.md
 #    - others/mlserver-introduction.md
 #    - others/optuna-introduction.md
 #    - others/knative-introduction.md
-#    - others/istio-introduction.md
 #    - others/cert-manager-introduction.md
 #    - others/grpc-introduction.md
 #    - others/rest-vs-grpc.md
