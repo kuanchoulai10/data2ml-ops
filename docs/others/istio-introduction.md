@@ -6,7 +6,7 @@ tags:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/16fgzklcF7Y?si=FS2wVxcUEgDc73Xb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-<figure span="markdown">
+<figure markdown="span">
   ![](https://istio.io/latest/docs/ops/deployment/architecture/arch.svg)
   [*Architecture*](https://istio.io/latest/docs/ops/deployment/architecture/)
 </figure>
