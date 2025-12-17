@@ -25,28 +25,20 @@ nav:
     - mlflow/hpo.ipynb
   - Ray:
     - ray/what-why-when.md
-    - ray/how-it-works.md
+    - ray/how-ray-works.md
     - ray/in-the-bigger-picture.md
     - ray/deployment.md
     - ray/ray-tune.md
     - ray/ray-job.md
   - KServe:
     - kserve/what-why-when.md
-    - kserve/how-it-works.md
+    - kserve/how-kserve-works.md
     - kserve/in-the-bigger-picture.md
     - kserve/installation.md
     - kserve/deployment.md
     - kserve/transformer-advantages.md
     - kserve/feast-transformer.md
     - kserve/deployment-with-transformer.md
-  - Others:
-    - others/istio-introduction.md
-    - others/knative-introduction.md
-#    - others/mlserver-introduction.md
-#    - others/optuna-introduction.md
-#    - others/cert-manager-introduction.md
-#    - others/grpc-introduction.md
-#    - others/rest-vs-grpc.md
 
 theme:
   name: material

@@ -1,4 +1,10 @@
-# How It Works?
+---
+tags:
+  - KServe
+  - How It Works
+---
+
+# How KServe Works?
 
 KServe can be installed in two modes:
 
